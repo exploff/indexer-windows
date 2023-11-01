@@ -1,8 +1,8 @@
 #include "indexeraction.h"
 #include <string>
 #include <QDebug>
-#include "dbadapter.h"
-#include "indexerrunner.h"
+#include "../dbadapter/dbadapter.h"
+#include "../../indexerrunner/indexerrunner.h"
 
 /**
  * Classe qui va permettre d'executer la tache d'indexation des fichiers

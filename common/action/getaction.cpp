@@ -1,7 +1,7 @@
 #include "getaction.h"
 #include <string>
 #include <QDebug>
-#include "dbadapter.h"
+#include "../dbadapter/dbadapter.h"
 
 GetAction::GetAction(std::string name)
 {

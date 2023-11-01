@@ -1,14 +1,16 @@
-#ifndef GETACTION_H
-#define GETACTION_H
+#ifndef INDEXERACTION_H
+#define INDEXERACTION_H
 
 #include "action.h"
 #include <string>
-#include "dbadapter.h"
+#include "../dbadapter/dbadapter.h"
 
-class GetAction : public Action {
+class IndexerAction : public Action
+{
+
     public:
-        GetAction(std::string name);
-        virtual ~GetAction();
+        IndexerAction(std::string name);
+        virtual ~IndexerAction();
         virtual std::string getName() override;
         virtual void notify() override;
         virtual void run(DBAdapter &dbAdapter) override;
@@ -17,4 +19,4 @@ class GetAction : public Action {
 
 };
 
-#endif // GETACTION_H
+#endif // INDEXERACTION_H

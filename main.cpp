@@ -1,11 +1,11 @@
 #include "server.h"
 
-#include "action.h"
-#include "getaction.h"
-#include "dbadapter.h"
-#include "fileinfo.h"
-#include "enum.h"
-#include "indexeraction.h"
+#include "common/action/action.h"
+#include "common/action/getaction.h"
+#include "common/dbadapter/dbadapter.h"
+#include "common/fileinfo/fileinfo.h"
+#include "common/enum/enum.h"
+#include "common/action/indexeraction.h"
 
 #include <QApplication>
 #include <QLocale>

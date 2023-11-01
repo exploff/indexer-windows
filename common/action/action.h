@@ -2,7 +2,7 @@
 #define ACTION_H
 #include <string>
 
-#include "dbadapter.h"
+#include "../dbadapter/dbadapter.h"
 
 class Action {
     public:

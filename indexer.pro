@@ -9,11 +9,11 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dbadapter.cpp \
-    fileinfo.cpp \
-    getaction.cpp \
-    indexeraction.cpp \
-    indexerrunner.cpp \
+    common\dbadapter\dbadapter.cpp \
+    common\fileinfo\fileinfo.cpp \
+    common\action\getaction.cpp \
+    common\action\indexeraction.cpp \
+    indexerrunner\indexerrunner.cpp \
     commandHandler\commandhandler.cpp \
     commandhandler/parserfactory/parser/addparser.cpp \
     commandhandler/parserfactory/parser/clearparser.cpp \
@@ -26,13 +26,13 @@ SOURCES += \
     server.cpp
 
 HEADERS += \
-    action.h \
-    dbadapter.h \
-    enum.h \
-    fileinfo.h \
-    getaction.h \
-    indexeraction.h \
-    indexerrunner.h \
+    common\action\action.h \
+    common\dbadapter\dbadapter.h \
+    common\enum\enum.h \
+    common\fileinfo\fileinfo.h \
+    common\action\getaction.h \
+    common\action\indexeraction.h \
+    indexerrunner\indexerrunner.h \
     commandhandler\commandhandler.h \
     commandhandler\normalizer\normalizer.h \
     commandhandler\parserfactory\parser\parser.h \

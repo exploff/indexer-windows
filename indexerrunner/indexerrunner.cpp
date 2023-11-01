@@ -1,8 +1,8 @@
 #include "indexerrunner.h"
 
-#include "dbadapter.h"
-#include "fileinfo.h"
-#include "enum.h"
+#include "../common/dbadapter/dbadapter.h"
+#include "../common//fileinfo/fileinfo.h"
+#include "../common/enum/enum.h"
 #include <QDate>
 
 IndexerRunner::IndexerRunner(DBAdapter &dbAdapter) : dbAdapter(dbAdapter)

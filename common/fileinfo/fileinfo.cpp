@@ -1,5 +1,5 @@
 #include "fileinfo.h"
-#include "enum.h"
+#include "../../common/enum/enum.h"
 #include <QDate>
 
 // Constructeur prenant tous les paramètres

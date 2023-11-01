@@ -1,7 +1,7 @@
 #ifndef FILEINFO_H
 #define FILEINFO_H
 
-#include "enum.h"
+#include "../../common/enum/enum.h"
 #include <QDate>
 
 class FileInfo

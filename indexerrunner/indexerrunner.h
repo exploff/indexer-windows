@@ -2,8 +2,8 @@
 #define INDEXERRUNNER_H
 
 #include <QObject>
-#include "enum.h"
-#include "dbadapter.h"
+#include "../common/enum/enum.h"
+#include "../common/dbadapter/dbadapter.h"
 
 class IndexerRunner : public QObject
 {
