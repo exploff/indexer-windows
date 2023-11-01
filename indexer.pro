@@ -14,7 +14,15 @@ SOURCES += \
     getaction.cpp \
     indexeraction.cpp \
     indexerrunner.cpp \
+    commandHandler\commandhandler.cpp \
+    commandhandler/parserfactory/parser/addparser.cpp \
+    commandhandler/parserfactory/parser/clearparser.cpp \
+    commandhandler/parserfactory/parser/getparser.cpp \
+    commandhandler/parserfactory/parser/pushparser.cpp \
     main.cpp \
+    commandhandler\normalizer\normalizer.cpp \
+    commandhandler\parserfactory\parser\indexerparser.cpp \
+    commandhandler\parserfactory\parserfactory.cpp \
     server.cpp
 
 HEADERS += \
@@ -25,10 +33,12 @@ HEADERS += \
     getaction.h \
     indexeraction.h \
     indexerrunner.h \
+    commandhandler\commandhandler.h \
+    commandhandler\normalizer\normalizer.h \
+    commandhandler\parserfactory\parser\parser.h \
+    commandhandler\parserfactory\parserfactory.h \
     server.h
 
-TRANSLATIONS += \
-    indexer_fr_FR.ts
 CONFIG += lrelease
 CONFIG += embed_translations
 
