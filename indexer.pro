@@ -16,6 +16,7 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
 SOURCES += \
+    common/token/token.cpp \
     common\dbadapter\dbadapter.cpp \
     common\fileinfo\fileinfo.cpp \
     common\action\getaction.cpp \
@@ -41,6 +42,7 @@ RESOURCES += \
 HEADERS += \
     common/constants.h \
     commandhandler/parserfactory/parser/indexerparser.h \
+    common/token/token.h \
     common\action\action.h \
     common\dbadapter\dbadapter.h \
     common\enum\enum.h \

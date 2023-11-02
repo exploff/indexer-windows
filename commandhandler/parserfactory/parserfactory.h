@@ -3,13 +3,14 @@
 
 
 #include "commandhandler/parserfactory/parser/parser.h"
+#include "common/token/token.h"
 #include <QString>
 #include <QList>
 class ParserFactory
 {
 public:
     ParserFactory();
-    Parser* build(QStringList line);
+    Parser* build(QList<Token*> line);
 };
 
 #endif // PARSERFACTORY_H
