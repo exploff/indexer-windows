@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     QList<FileInfo> results = dbAdapter.getAll();
     for (int i = 0; i < results.size(); i++) {
         FileInfo val = results.at(i);
-        qDebug() << "ID:" << val.getId() << "Path:" << val.getPath() << "FileName:" << val.getFileName() << "Size:" << val.getSize()
+        qDebug() << "ID:" << i << "Path:" << val.getPath() << "FileName:" << val.getFileName() << "Size:" << val.getSize()
                  << "Extension:" << val.getExtension() << "Type:" << val.getType() << "ModifiedDate:" << val.getModifiedDate()
                  << "CreatedDate:" << val.getCreatedDate();
     }

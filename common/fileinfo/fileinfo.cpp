@@ -3,7 +3,7 @@
 #include <QDate>
 
 // Constructeur prenant tous les paramètres
-FileInfo::FileInfo(uint id, QString path, QString fileName, uint size, QString extension, Enum::FileType type, QDate modifiedDate, QDate createdDate)
+FileInfo::FileInfo(QString path, QString fileName, uint size, QString extension, Enum::FileType type, QDate modifiedDate, QDate createdDate)
     : id(id), path(path), fileName(fileName), size(size), extension(extension), type(type), modifiedDate(modifiedDate), createdDate(createdDate)
 {
 }
@@ -39,17 +39,6 @@ uint FileInfo::getSize() const
 void FileInfo::setSize(uint value)
 {
     size = value;
-}
-
-// Getter et setter pour 'id'
-uint FileInfo::getId() const
-{
-    return id;
-}
-
-void FileInfo::setId(uint value)
-{
-    id = value;
 }
 
 // Getter et setter pour 'extension'

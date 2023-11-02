@@ -56,14 +56,14 @@ int DBAdapter::initTables()
 {
     // create table
     QString tblFile = "CREATE TABLE IF NOT EXISTS files ("
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "path STRING,"
                             "fileName STRING,"
                             "modifiedDate DATE,"
                             "createdDate DATE,"
                             "size BIGINT,"
                             "extension STRING,"
-                            "type STRING"
+                            "type STRING,"
+                            "PRIMARY KEY (path, fileName)"
                             ")";
     QSqlQuery query;
     query.exec(tblFile);
@@ -111,7 +111,6 @@ QList<FileInfo> DBAdapter::getAll()
     }
 
     while(query.next()) {
-        uint id = query.value("id").toUInt();
         QString path = query.value("path").toString();
         QString fileName = query.value("fileName").toString();
         uint size = query.value("size").toUInt();
@@ -129,7 +128,7 @@ QList<FileInfo> DBAdapter::getAll()
         QDate createdDate = createdDateTime.date();
 
         // Créer un objet FileInfo et l'ajouter à la liste des résultats
-        FileInfo fileInfo(id, path, fileName, size, extension, type, modifiedDate, createdDate);
+        FileInfo fileInfo(path, fileName, size, extension, type, modifiedDate, createdDate);
         results.append(fileInfo);
     }
     query.finish();

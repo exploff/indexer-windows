@@ -4,6 +4,8 @@
 #include "../common//fileinfo/fileinfo.h"
 #include "../common/enum/enum.h"
 #include <QDate>
+#include <QDirIterator>
+#include <QFileInfo>
 
 IndexerRunner::IndexerRunner(DBAdapter &dbAdapter) : dbAdapter(dbAdapter)
 {
@@ -11,14 +13,27 @@ IndexerRunner::IndexerRunner(DBAdapter &dbAdapter) : dbAdapter(dbAdapter)
 }
 
 void IndexerRunner::start() {
-    qDebug() << "IndexerRunner START" << __FUNCTION__ << __LINE__;
+    qDebug() << "IndexerRunner START";
 
-    FileInfo fileInfo1(0, "/path/to/files", "fichier.txt", 124, "txt", Enum::FileType::TEXT, QDate(2022, 1, 1), QDate(2022, 1, 1));
-    this->dbAdapter.save(fileInfo1);
-    FileInfo fileInfo2(0, "/path/to/files", "toto.txt", 124, "txt", Enum::FileType::TEXT, QDate(2022, 1, 1), QDate(2022, 1, 1));
-    this->dbAdapter.save(fileInfo2);
-    FileInfo fileInfo3(0, "/path/to/files", "test.txt", 124, "txt", Enum::FileType::TEXT, QDate(2022, 1, 1), QDate(2022, 1, 1));
-    this->dbAdapter.save(fileInfo3);
+    //Dossier racine que l'on doit indéxer
+    QString dirPath = "C:\\Users\\Julien\\Documents";
 
+    //Extension que l'on indexe
+    QStringList ext;
+    ext.append("*.txt");
+
+    //Extension type
+    Enum::FileType type = Enum::FileType::TEXT;
+    QDirIterator it(dirPath, ext, QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        //qDebug() << it.next();
+        QFileInfo fileMetadata = QFileInfo(it.next());
+        //qDebug() << fileMetadata.fileName();
+
+        FileInfo fileInfo(fileMetadata.absolutePath(), fileMetadata.fileName(), fileMetadata.size(),
+                          fileMetadata.suffix(), type, fileMetadata.lastModified().date(), fileMetadata.birthTime().date());
+
+        this->dbAdapter.save(fileInfo);
+    }
     qDebug() << "IndexerRunner END";
 }
