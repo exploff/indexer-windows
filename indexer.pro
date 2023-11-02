@@ -20,7 +20,8 @@ SOURCES += \
     common\fileinfo\fileinfo.cpp \
     common\action\getaction.cpp \
     common\action\indexeraction.cpp \
-    debug.cpp \
+    common\debug\debug.cpp \
+    executor\executor.cpp \
     indexerrunner\indexerrunner.cpp \
     commandHandler\commandhandler.cpp \
     commandhandler/parserfactory/parser/addparser.cpp \
@@ -39,13 +40,15 @@ RESOURCES += \
 
 HEADERS += \
     common/constants.h \
+    commandhandler/parserfactory/parser/indexerparser.h \
     common\action\action.h \
     common\dbadapter\dbadapter.h \
     common\enum\enum.h \
     common\fileinfo\fileinfo.h \
     common\action\getaction.h \
     common\action\indexeraction.h \
-    debug.h \
+    common\debug\debug.h \
+    executor\executor.h \
     indexerrunner\indexerrunner.h \
     commandhandler\commandhandler.h \
     commandhandler\normalizer\normalizer.h \

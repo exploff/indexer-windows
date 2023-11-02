@@ -9,6 +9,7 @@
 class DBAdapter
 {
     public:
+        DBAdapter();
         DBAdapter(QString dbPath, QString dbFileName);
         ~DBAdapter();
         int open();
