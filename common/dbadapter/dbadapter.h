@@ -1,7 +1,7 @@
 #ifndef DBADAPTER_H
 #define DBADAPTER_H
 
-#include "fileinfo.h"
+#include "../fileinfo/fileinfo.h"
 #include <QList>
 #include <QSqlDatabase>
 

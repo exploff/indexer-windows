@@ -1,11 +1,12 @@
+#include "commandhandler/normalizer/normalizer.h"
 #include "server.h"
 
-#include "action.h"
-#include "getaction.h"
-#include "dbadapter.h"
-#include "fileinfo.h"
-#include "enum.h"
-#include "indexeraction.h"
+#include "common/action/action.h"
+#include "common/action/getaction.h"
+#include "common/dbadapter/dbadapter.h"
+#include "common/fileinfo/fileinfo.h"
+#include "common/enum/enum.h"
+#include "common/action/indexeraction.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -17,6 +18,9 @@
 #include <QSqlQuery>
 #include <QList>
 #include <QDate>
+#include <QDebug>
+#include <QUrl>
+
 
 void runAction(Action * obj, DBAdapter &dbAdapter) {
     obj->run(dbAdapter);
@@ -69,6 +73,25 @@ int main(int argc, char *argv[])
     dbAdapter.dropTable("files");
 
     dbAdapter.close();
+
+    QStringList l;
+    l << "helo"
+      << "réda"
+      << "multi word"
+      << "\\plok\\"
+      << "\"plok is my name\\"
+      << "SEARCH \"testme please\" LAST_MODIFIED:2 days CREATED:31/12/2020 MAX_SIZE:1M EXT:txt,doc,xlsx TYPE:image OR "
+         "text"
+
+        ;
+    qDebug() << "          ";
+    qDebug() << "          ";
+    Normalizer normalizer;
+    for (const auto &i : qAsConst(l)) {
+        qDebug() << normalizer.stringToList(i);
+//        qDebug() << QUrl::toPercentEncoding(i);
+    }
+
 
     /*
     //setup the driver

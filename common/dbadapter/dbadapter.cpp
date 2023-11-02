@@ -1,5 +1,5 @@
 #include "dbadapter.h"
-#include "fileinfo.h"
+#include "../fileinfo/fileinfo.h"
 #include <QList>
 #include <QSqlDatabase>
 #include <QSqlQuery>
