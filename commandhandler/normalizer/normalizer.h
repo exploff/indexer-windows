@@ -1,13 +1,15 @@
 #ifndef NORMALIZER_H
 #define NORMALIZER_H
 #include <QString>
+#include <QStringList>
+#include <QRegularExpression>
 
 class Normalizer
 {
 public:
     Normalizer();
 public:
-    QString normalize(const QString& command);
+    QStringList stringToList(QString line);
 };
 
 #endif // NORMALIZER_H
