@@ -1,8 +1,10 @@
-#include "indexeraction.h"
 #include <string>
 #include <QDebug>
+#include <QObject>
+#include "indexeraction.h"
+
 #include "../dbadapter/dbadapter.h"
-#include "../../indexerrunner/indexerrunner.h"
+#include "../../indexer/indexerrunner/indexer.h"
 
 /**
  * Classe qui va permettre d'executer la tache d'indexation des fichiers
@@ -26,28 +28,27 @@ std::string IndexerAction::getName() {
     return this->name;
 }
 
-void IndexerAction::run(DBAdapter &dbAdapter) {
-    dbAdapter.open();
-    dbAdapter.initTables();
-
-
+void IndexerAction::run() {
     qDebug() << "IndexerAction" << __FUNCTION__ << __LINE__;
-    IndexerRunner indexerRunner(dbAdapter);
-    indexerRunner.start();
 
+    qDebug() << "IndexerAction START";
 
-    //Affichage des resultats indexer
-//    QList<FileInfo> results = dbAdapter.getAll();
-//    for (int i = 0; i < results.size(); i++) {
-//        FileInfo val = results.at(i);
-//        qDebug() << "ID:" << i << "Path:" << val.getPath() << "FileName:" << val.getFileName() << "Size:" << val.getSize()
-//                 << "Extension:" << val.getExtension() << "Type:" << val.getType() << "ModifiedDate:" << val.getModifiedDate()
-//                 << "CreatedDate:" << val.getCreatedDate();
-//    }
+    //Dossier racine que l'on doit indéxer
+    QString dirPath = "C:\\Users\\Julien\\Documents\\Cours";
 
-    dbAdapter.dropTable("files");
+    //Extension que l'on indexe
+    QStringList ext;
+    ext.append("*");
 
-    dbAdapter.close();
+    Indexer *indexerThread = new Indexer(dirPath, ext);
+    //connect(indexerThread, &Indexer::resultReady, this, &MyObject::handleResults);
+    //connect(indexerThread, &Indexer::finished, indexerThread, &QObject::deleteLater);
+    indexerThread->start();
+
+    // TODO : A SUPPRIMER
+    indexerThread->wait();
+
+    qDebug() << "IndexerAction END";
 }
 
 void IndexerAction::notify() {

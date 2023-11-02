@@ -8,6 +8,7 @@
 #include "common/enum/enum.h"
 #include "common/action/indexeraction.h"
 #include "common/debug/debug.h"
+#include "common/constants.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -23,11 +24,8 @@
 #include <QUrl>
 #include <QLoggingCategory>
 
-Q_LOGGING_CATEGORY(fooDebug, "foo")
+//Q_LOGGING_CATEGORY(fooDebug, "foo")
 
-void runAction(Action * obj, DBAdapter &dbAdapter) {
-    obj->run(dbAdapter);
-}
 
 int main(int argc, char *argv[])
 {
@@ -35,13 +33,29 @@ int main(int argc, char *argv[])
     initDebug();
     logAppInfo();
 
-    qDebug() << "Hello world";
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbFileName = Constants::DB_FILENAME;
 
-    qCDebug(fooDebug) << "TEST ME";
+    DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+
+    dbAdapter.open();
+    dbAdapter.initTables();
+    dbAdapter.close();
+
+    //Log avec categorie
+    //qCDebug(fooDebug) << "TEST ME";
 
     CommandHandler commandHandler;
 
     commandHandler.processCommand("GET WHITELIST");
 
+    dbAdapter = DBAdapter(appDataLocation, dbFileName);
+    dbAdapter.open();
+
+    //Affichage des resultats indexer pour le test
+    QList<FileInfo> results = dbAdapter.getAll();
+    qDebug() << "Nombre de résultats : " << results.size();
+
+    dbAdapter.close();
 }
 
