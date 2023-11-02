@@ -8,11 +8,19 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags)
+GIT_COMMITS = $$system(git --git-dir $$PWD/.git --work-tree $$PWD rev-list HEAD --count)
+
+VERSION += 1.0.0.$$GIT_COMMITS
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
+
 SOURCES += \
     common\dbadapter\dbadapter.cpp \
     common\fileinfo\fileinfo.cpp \
     common\action\getaction.cpp \
     common\action\indexeraction.cpp \
+    debug.cpp \
     indexerrunner\indexerrunner.cpp \
     commandHandler\commandhandler.cpp \
     commandhandler/parserfactory/parser/addparser.cpp \
@@ -25,6 +33,10 @@ SOURCES += \
     commandhandler\parserfactory\parserfactory.cpp \
     server.cpp
 
+RESOURCES += \
+    dataset.qrc \
+    dataset.qrc
+
 HEADERS += \
     common\action\action.h \
     common\dbadapter\dbadapter.h \
@@ -32,6 +44,7 @@ HEADERS += \
     common\fileinfo\fileinfo.h \
     common\action\getaction.h \
     common\action\indexeraction.h \
+    debug.h \
     indexerrunner\indexerrunner.h \
     commandhandler\commandhandler.h \
     commandhandler\normalizer\normalizer.h \

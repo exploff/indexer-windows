@@ -7,6 +7,7 @@
 #include "common/fileinfo/fileinfo.h"
 #include "common/enum/enum.h"
 #include "common/action/indexeraction.h"
+#include "debug.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -20,7 +21,9 @@
 #include <QDate>
 #include <QDebug>
 #include <QUrl>
+#include <QLoggingCategory>
 
+Q_LOGGING_CATEGORY(fooDebug, "foo")
 
 void runAction(Action * obj, DBAdapter &dbAdapter) {
     obj->run(dbAdapter);
@@ -45,6 +48,15 @@ int main(int argc, char *argv[])
     */
 
     QCoreApplication a(argc, argv);
+
+
+    initDebug();
+    logAppInfo();
+
+    qDebug() << "Hello world";
+
+    qCDebug(fooDebug) << "TEST ME";
+
 
     //getting system app data folder
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);

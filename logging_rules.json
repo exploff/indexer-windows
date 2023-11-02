@@ -1,0 +1,7 @@
+{
+    "rules": [
+        "foo.*=false",
+        "qt.qpa.* = false"
+    ],
+    "skipped": ["*.debug = true"]
+}
