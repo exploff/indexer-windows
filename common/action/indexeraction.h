@@ -4,6 +4,7 @@
 #include "action.h"
 #include <string>
 #include "../dbadapter/dbadapter.h"
+#include <QObject>
 
 class IndexerAction : public Action
 {
@@ -13,7 +14,7 @@ class IndexerAction : public Action
         virtual ~IndexerAction();
         virtual std::string getName() override;
         virtual void notify() override;
-        virtual void run(DBAdapter &dbAdapter) override;
+        virtual void run() override;
     private:
         std::string name;
 

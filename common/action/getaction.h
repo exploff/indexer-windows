@@ -11,7 +11,7 @@ class GetAction : public Action {
         virtual ~GetAction();
         virtual std::string getName() override;
         virtual void notify() override;
-        virtual void run(DBAdapter &dbAdapter) override;
+        virtual void run() override;
     private:
         std::string name;
 

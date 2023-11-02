@@ -17,7 +17,7 @@ std::string GetAction::getName() {
     return this->name;
 }
 
-void GetAction::run(DBAdapter &dbAdapter) {
+void GetAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 }
 
