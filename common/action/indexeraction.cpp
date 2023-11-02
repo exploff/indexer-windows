@@ -3,8 +3,7 @@
 #include <QObject>
 #include "indexeraction.h"
 
-#include "../dbadapter/dbadapter.h"
-#include "../../indexer/indexerrunner/indexer.h"
+#include "indexerrunner/indexer.h"
 
 /**
  * Classe qui va permettre d'executer la tache d'indexation des fichiers
