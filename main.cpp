@@ -7,7 +7,7 @@
 #include "common/fileinfo/fileinfo.h"
 #include "common/enum/enum.h"
 #include "common/action/indexeraction.h"
-#include "debug.h"
+#include "common/debug/debug.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -31,25 +31,7 @@ void runAction(Action * obj, DBAdapter &dbAdapter) {
 
 int main(int argc, char *argv[])
 {
-    /*QApplication a(argc, argv);
-
-    QTranslator translator;
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
-        const QString baseName = "indexer_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
-            a.installTranslator(&translator);
-            break;
-        }
-    }
-    Server w;
-    w.show();
-    return a.exec();
-    */
-
     QCoreApplication a(argc, argv);
-
-
     initDebug();
     logAppInfo();
 
@@ -57,35 +39,12 @@ int main(int argc, char *argv[])
 
     qCDebug(fooDebug) << "TEST ME";
 
+    CommandHandler commandHandler;
 
-    //getting system app data folder
-    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QString dbFileName = "test.db";
+    commandHandler.processCommand("test");
 
-    DBAdapter dbAdapter(appDataLocation, dbFileName);
 
-    dbAdapter.open();
 
-    dbAdapter.initTables();
-
-    //Lancement d'une action
-    Action * indexerAction = new IndexerAction("test");
-    runAction(indexerAction, dbAdapter);
-    delete indexerAction;
-
-    //Affichage des resultats indexer
-    QList<FileInfo> results = dbAdapter.getAll();
-    qDebug() << "Nombre de résultats : " << results.size();
-    /*for (int i = 0; i < results.size(); i++) {
-        FileInfo val = results.at(i);
-        qDebug() << "ID:" << i << "Path:" << val.getPath() << "FileName:" << val.getFileName() << "Size:" << val.getSize()
-                 << "Extension:" << val.getExtension() << "Type:" << val.getType() << "ModifiedDate:" << val.getModifiedDate()
-                 << "CreatedDate:" << val.getCreatedDate();
-    }*/
-
-    dbAdapter.dropTable("files");
-
-    dbAdapter.close();
 
     QStringList l;
     l << "helo"

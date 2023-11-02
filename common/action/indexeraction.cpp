@@ -27,9 +27,27 @@ std::string IndexerAction::getName() {
 }
 
 void IndexerAction::run(DBAdapter &dbAdapter) {
+    dbAdapter.open();
+    dbAdapter.initTables();
+
+
     qDebug() << "IndexerAction" << __FUNCTION__ << __LINE__;
     IndexerRunner indexerRunner(dbAdapter);
     indexerRunner.start();
+
+
+    //Affichage des resultats indexer
+//    QList<FileInfo> results = dbAdapter.getAll();
+//    for (int i = 0; i < results.size(); i++) {
+//        FileInfo val = results.at(i);
+//        qDebug() << "ID:" << i << "Path:" << val.getPath() << "FileName:" << val.getFileName() << "Size:" << val.getSize()
+//                 << "Extension:" << val.getExtension() << "Type:" << val.getType() << "ModifiedDate:" << val.getModifiedDate()
+//                 << "CreatedDate:" << val.getCreatedDate();
+//    }
+
+    dbAdapter.dropTable("files");
+
+    dbAdapter.close();
 }
 
 void IndexerAction::notify() {

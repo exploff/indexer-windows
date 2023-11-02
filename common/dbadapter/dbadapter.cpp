@@ -7,6 +7,10 @@
 #include <QSqlError>
 #include <memory>
 
+DBAdapter::DBAdapter()
+{
+
+}
 DBAdapter::DBAdapter(QString dbPath, QString dbFileName)
 {
     //Setup the driver DB

@@ -1,14 +1,13 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <QMainWindow>
 
-class Server : public QMainWindow
+#include "commandhandler/commandhandler.h"
+class Server
 {
-    Q_OBJECT
-
-public:
-    Server(QWidget *parent = nullptr);
-    ~Server();
+    CommandHandler commandHandler;
+    public:
+        Server();
+        ~Server();
 };
 #endif // SERVER_H

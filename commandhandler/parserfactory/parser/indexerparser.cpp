@@ -1,10 +1,15 @@
-#include "parser.h"
+#include "indexerparser.h"
 #include <QString>
-class IndexerParser : public Parser {
-public:
-    bool parse(const QString& input) override {
-        // Implement your parsing logic here
-        // Return true if parsing succeeds, false otherwise
-        return true;
-    }
-};
+
+#include "common/action/action.h"
+#include "common/action/indexeraction.h"
+
+IndexerParser::IndexerParser()
+{
+
+}
+Action* IndexerParser::parse()
+{
+    return  new IndexerAction("test");
+}
+
