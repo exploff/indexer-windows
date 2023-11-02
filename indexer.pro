@@ -38,6 +38,7 @@ RESOURCES += \
     dataset.qrc
 
 HEADERS += \
+    common/constants.h \
     common\action\action.h \
     common\dbadapter\dbadapter.h \
     common\enum\enum.h \

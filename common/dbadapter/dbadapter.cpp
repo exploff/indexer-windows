@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QDir>
 #include <QSqlError>
+#include <memory>
 
 DBAdapter::DBAdapter(QString dbPath, QString dbFileName)
 {
@@ -78,24 +79,44 @@ int DBAdapter::initTables()
 }
 
 
-void DBAdapter::save(FileInfo fileInfo)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO files(path, fileName, modifiedDate, createdDate, size, extension, type) "
+void DBAdapter::prepareSaveTransaction() {
+    qDebug() << "Start transaction save file";
+    this->query = new QSqlQuery();
+
+    this->query->exec("pragma temp_store = memory");
+    this->query->exec("PRAGMA synchronous = OFF");
+    this->query->exec("pragma mmap_size = 30000000000");
+    this->query->exec("PRAGMA journal_mode = MEMORY");
+
+    this->db.transaction();
+
+    this->query->prepare("INSERT INTO files(path, fileName, modifiedDate, createdDate, size, extension, type) "
                   "VALUES(:path, :fileName, :modifiedDate, :createdDate, :size, :extension, :type)");
 
-    query.bindValue(":path", fileInfo.getPath());
-    query.bindValue(":fileName", fileInfo.getFileName());
-    query.bindValue(":modifiedDate", fileInfo.getModifiedDate().toString(Qt::ISODate)); // Convertit la date en format ISODate
-    query.bindValue(":createdDate", fileInfo.getCreatedDate().toString(Qt::ISODate)); // Convertit la date en format ISODate
-    query.bindValue(":size", fileInfo.getSize());
-    query.bindValue(":extension", fileInfo.getExtension());
-    query.bindValue(":type", static_cast<int>(fileInfo.getType())); // Convertit l'énumération en int
+}
 
-    if (!query.exec()) {
-        qWarning() << "insert data into table files" << query.lastQuery() << query.lastError().text();
+void DBAdapter::commitTransaction() {
+    qDebug() << "Commit transaction";
+    this->db.commit();
+    delete this->query;
+}
+
+
+void DBAdapter::save(FileInfo fileInfo)
+{
+
+    this->query->bindValue(":path", fileInfo.getPath());
+    this->query->bindValue(":fileName", fileInfo.getFileName());
+    this->query->bindValue(":modifiedDate", fileInfo.getModifiedDate().toString(Qt::ISODate)); // Convertit la date en format ISODate
+    this->query->bindValue(":createdDate", fileInfo.getCreatedDate().toString(Qt::ISODate)); // Convertit la date en format ISODate
+    this->query->bindValue(":size", fileInfo.getSize());
+    this->query->bindValue(":extension", fileInfo.getExtension());
+    this->query->bindValue(":type", static_cast<int>(fileInfo.getType())); // Convertit l'énumération en int
+
+    if (!this->query->exec()) {
+        qWarning() << "insert data into table files" << this->query->lastQuery() << this->query->lastError().text();
     }
-    query.finish();
+    this->query->finish();
 }
 
 QList<FileInfo> DBAdapter::getAll()

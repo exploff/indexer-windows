@@ -4,6 +4,7 @@
 #include "../fileinfo/fileinfo.h"
 #include <QList>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 
 class DBAdapter
 {
@@ -14,10 +15,13 @@ class DBAdapter
         void close();
         int initTables();
         void save(FileInfo fileInfo);
+        void prepareSaveTransaction();
+        void commitTransaction();
         void dropTable(QString tableName);
         QList<FileInfo> getAll();
     private:
         QSqlDatabase db;
+        QSqlQuery * query;
 };
 
 #endif // DBADAPTER_H
