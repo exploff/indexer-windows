@@ -23,7 +23,7 @@ SOURCES += \
     common\action\indexeraction.cpp \
     common\debug\debug.cpp \
     executor\executor.cpp \
-    indexerrunner\indexerrunner.cpp \
+    indexerrunner/indexer.cpp \
     commandHandler\commandhandler.cpp \
     commandhandler/parserfactory/parser/addparser.cpp \
     commandhandler/parserfactory/parser/clearparser.cpp \
@@ -51,7 +51,7 @@ HEADERS += \
     common\action\indexeraction.h \
     common\debug\debug.h \
     executor\executor.h \
-    indexerrunner\indexerrunner.h \
+    indexerrunner/indexer.h \
     commandhandler\commandhandler.h \
     commandhandler\normalizer\normalizer.h \
     commandhandler\parserfactory\parser\parser.h \

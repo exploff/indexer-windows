@@ -7,6 +7,7 @@
 class FileInfo
 {
     public:
+        FileInfo();
         FileInfo(QString path, QString fileName, uint size, QString extension, Enum::FileType type, QDate modifiedDate, QDate createdDate);
 
         QString getPath() const;
@@ -30,7 +31,6 @@ class FileInfo
         QDate getCreatedDate() const;
         void setCreatedDate(const QDate &value);
     private:
-        uint id;
         QString path;
         QString fileName;
         uint size;

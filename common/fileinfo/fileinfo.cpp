@@ -2,9 +2,14 @@
 #include "../../common/enum/enum.h"
 #include <QDate>
 
+// Constructeur sans paramètre
+FileInfo::FileInfo() {
+
+}
+
 // Constructeur prenant tous les paramètres
 FileInfo::FileInfo(QString path, QString fileName, uint size, QString extension, Enum::FileType type, QDate modifiedDate, QDate createdDate)
-    : id(id), path(path), fileName(fileName), size(size), extension(extension), type(type), modifiedDate(modifiedDate), createdDate(createdDate)
+    : path(path), fileName(fileName), size(size), extension(extension), type(type), modifiedDate(modifiedDate), createdDate(createdDate)
 {
 }
 

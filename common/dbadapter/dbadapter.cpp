@@ -54,6 +54,10 @@ void DBAdapter::close()
 {
     if(this->db.isOpen()) {
         this->db.close();
+        QString connectionName = this->db.connectionName();
+        QSqlDatabase::database(connectionName).close();
+        QSqlDatabase::removeDatabase(connectionName);
+
     }
 }
 
@@ -159,6 +163,16 @@ QList<FileInfo> DBAdapter::getAll()
     query.finish();
 
     return results;
+}
+
+void DBAdapter::clearTable(QString tableName) {
+    qDebug() << "Clear table " + tableName;
+    QString sqlClear = "DELETE FROM " + tableName;
+    QSqlQuery query;
+    query.exec(sqlClear);
+    if (query.lastError().isValid()) {
+        qWarning() << sqlClear << query.lastError().text();
+    }
 }
 
 void DBAdapter::dropTable(QString tableName) {

@@ -16,6 +16,7 @@ class DBAdapter
         void close();
         int initTables();
         void save(FileInfo fileInfo);
+        void clearTable(QString tableName);
         void prepareSaveTransaction();
         void commitTransaction();
         void dropTable(QString tableName);

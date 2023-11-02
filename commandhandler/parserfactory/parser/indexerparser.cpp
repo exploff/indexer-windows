@@ -10,6 +10,6 @@ IndexerParser::IndexerParser()
 }
 Action* IndexerParser::parse()
 {
-    return  new IndexerAction("test");
+    return  new IndexerAction("INDEXER");
 }
 
