@@ -17,11 +17,11 @@ void IndexerRunner::start() {
     qDebug() << "IndexerRunner START";
 
     //Dossier racine que l'on doit indéxer
-    QString dirPath = "C:\\Users\\Julien\\Documents";
+    QString dirPath = "C:\\";
 
     //Extension que l'on indexe
     QStringList ext;
-    ext.append("*.txt");
+    ext.append("*");
 
     //Extension type
     Enum::FileType type = Enum::FileType::TEXT;
