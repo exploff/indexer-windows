@@ -70,7 +70,12 @@ QString Normalizer::getType(QString token) {
     };
 
     static QRegularExpression re;
+    re.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
+    re.setPattern("\\b(MINUTES|HOURS|DAYS|MONTHS|YEARS)\\b");
+    if (re.match(token).hasMatch()) {
+        return "TIME_UNIT";
+    }
 
     re.setPattern("\\d{2}/\\d{2}/?");
     if (re.match(token).hasMatch()) {
@@ -106,6 +111,20 @@ void Normalizer::addToken(QString token) {
     if (lasttype == "FINAL" && type == "FINAL") {
         lasttype = type;
         return;
+    }
+
+    // Check if the current token is a time unit
+    if (type == "TIME_UNIT") {
+        // Combine with the previous token to form a time expression
+        if (!_tokens.isEmpty()) {
+            Token* previousToken = _tokens.last();
+            QString combinedToken = previousToken->value() + " " + token;
+            Token* combinedTokenObj = new Token(combinedToken, "TIME_EXPRESSION");
+            _tokens.removeLast();  // Remove the previous token
+            _tokens.append(combinedTokenObj);  // Add the combined time expression
+            lasttype = "TIME_EXPRESSION";  // Update lasttype
+            return;
+        }
     }
 
     Token *tokenObj = new Token(token, type);
