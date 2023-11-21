@@ -1,5 +1,6 @@
 #include "commandhandler.h"
 #include "QDebug"
+#include <QMetaEnum>
 CommandHandler::CommandHandler()
 {
 

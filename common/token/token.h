@@ -1,19 +1,20 @@
 #ifndef TOKEN_H
 #define TOKEN_H
+#include "common/enum/enum.h"
 
 #include <QString>
 
 class Token
 {
 public:
-    Token(const QString &value, const QString &type);
+    Token(const QString &value, const Enum::TokenTypes &type);
 
     QString value() const;
-    QString type() const;
+    Enum::TokenTypes type() const;
 
 private:
     QString _value;
-    QString _type;
+    Enum::TokenTypes _type;
 };
 
 #endif // TOKEN_H

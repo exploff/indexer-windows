@@ -9,7 +9,7 @@ Parser* ParserFactory::build(QList<Token*> tokenList)
 {
     Token* commandeToken = nullptr;
     for (Token* token : tokenList) {
-        if (token->type() == "COMMANDE") {
+        if (token->type() == Enum::TokenTypes::COMMANDE) {
             commandeToken = token;
             break;
         }

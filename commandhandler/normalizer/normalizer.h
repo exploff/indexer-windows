@@ -23,10 +23,10 @@ class Normalizer
         void addTokenString(QString token);
         void addToken(QStringList tokens);
         bool isExtension(QString token);
-        QString getType(QString token);
+        Enum::TokenTypes getType(QString token);
 
         QMimeDatabase _mimeDatabase;
         QList<Token*> _tokens;
-        QMap<QString, QStringList> _dictionary;
+        QMap<Enum::TokenTypes, QStringList> _dictionary;
  };
 #endif // NORMALIZER_H

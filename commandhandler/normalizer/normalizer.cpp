@@ -1,4 +1,5 @@
 #include "normalizer.h"
+#include "common/enum/enum.h"
 #include <QDebug>
 #include <QFile>
 #include <QJsonArray>
@@ -14,7 +15,7 @@ Normalizer::Normalizer(){
     //QMimeDatabase mimeDatabase;
     //_mimeDatabase = mimeDatabase;
 
-    _dictionary["COMMANDE"] << "INDEXER" << "GET" << "ADD" << "PUSH" << "CLEAR" << "SEARCH";
+    _dictionary[Enum::TokenTypes::COMMANDE] << "INDEXER" << "GET" << "ADD" << "PUSH" << "CLEAR" << "SEARCH";
 }
 
 
@@ -63,10 +64,10 @@ void Normalizer::tokenize(QString source) {
 
 
 
-QString Normalizer::getType(QString token) {
+Enum::TokenTypes Normalizer::getType(QString token) {
     // qDebug() << __FUNCTION__ << token << _dictionary.keys();
 
-    foreach (QString category, _dictionary.keys()) {
+    foreach (Enum::TokenTypes category, _dictionary.keys()) {
 
         if (_dictionary[category].contains(token.toUpper())) {
             return category;
@@ -78,49 +79,49 @@ QString Normalizer::getType(QString token) {
 
     re.setPattern("\\b(MINUTES|HOURS|DAYS|MONTHS|YEARS)\\b");
     if (re.match(token).hasMatch()) {
-        return "TIME_UNIT";
+        return Enum::TokenTypes::TIME_UNIT;
     }
 
     re.setPattern("\\d{2}/\\d{2}/?");
     if (re.match(token).hasMatch()) {
-        return "DATE";
+        return Enum::TokenTypes::DATE;
     }
 
     re.setPattern("\\d+[KMG]+");
     if (re.match(token).hasMatch()) {
-        return "SIZE";
+        return Enum::TokenTypes::SIZE;
     }
 
     re.setPattern("\\d+\\.\\d+");
     if (re.match(token).hasMatch()) {
-        return "DOUBLE";
+        return Enum::TokenTypes::DOUBLE;
     }
 
     re.setPattern("^(LAST_MODIFIED|CREATED|MAX_SIZE|MIN_SIZE|SIZE|EXT|TYPE)$");
     if (re.match(token).hasMatch()) {
-        return "OPTIONS";
+        return Enum::TokenTypes::OPTIONS;
     }
 
     if (token != ":" && token != "," &&  token != "OR" && isExtension(token)) {
-        return "EXTENSION";
+        return Enum::TokenTypes::EXTENSION;
     }
 
     re.setPattern("^(exec|image|text)$");
     if (re.match(token).hasMatch()) {
-        return "TYPE";
+        return Enum::TokenTypes::TYPE;
     }
 
     re.setPattern("^[a-zA-Z_]{1}[0-9a-zA-Z_]+");
     if (re.match(token).hasMatch()) {
-        return "IDENTIFIER";
+        return Enum::TokenTypes::IDENTIFIER;
     }
 
     re.setPattern("^\\d+$");
     if (re.match(token).hasMatch()) {
-        return "NUMBER";
+        return Enum::TokenTypes::NUMBER;
     }
 
-    return "TOKEN_UNKNOWN";
+    return Enum::TokenTypes::TOKEN_UNKNOWN;
 }
 
 bool Normalizer::isExtension(QString token) {
@@ -130,7 +131,7 @@ bool Normalizer::isExtension(QString token) {
         int i = _tokens.size() -1;
         while (i >= 0) {
             Token* t = _tokens[i];
-            if (t->type() == "OPTIONS") {
+            if (t->type() == Enum::TokenTypes::OPTIONS) {
                 return t->value() == "EXT";
             }
             i = i - 1;
@@ -140,24 +141,24 @@ bool Normalizer::isExtension(QString token) {
 }
 
 void Normalizer::addToken(QString token) {
-    static QString lasttype;
+    static Enum::TokenTypes lasttype;
     // dont add multiple final tokens
-    QString type = getType(token);
-    if (lasttype == "FINAL" && type == "FINAL") {
+    Enum::TokenTypes type = getType(token);
+    if (lasttype == Enum::TokenTypes::FINAL && type == Enum::TokenTypes::FINAL) {
         lasttype = type;
         return;
     }
 
     // Check if the current token is a time unit
-    if (type == "TIME_UNIT") {
+    if (type == Enum::TokenTypes::TIME_UNIT) {
         // Combine with the previous token to form a time expression
         if (!_tokens.isEmpty()) {
             Token* previousToken = _tokens.last();
             QString combinedToken = previousToken->value() + " " + token;
-            Token* combinedTokenObj = new Token(combinedToken, "TIME_EXPRESSION");
+            Token* combinedTokenObj = new Token(combinedToken, Enum::TokenTypes::TIME_EXPRESSION);
             _tokens.removeLast();  // Remove the previous token
             _tokens.append(combinedTokenObj);  // Add the combined time expression
-            lasttype = "TIME_EXPRESSION";  // Update lasttype
+            lasttype = Enum::TokenTypes::TIME_EXPRESSION;  // Update lasttype
             return;
         }
     }
@@ -171,7 +172,7 @@ void Normalizer::addToken(QString token) {
 }
 
 void Normalizer::addTokenString(QString token) {
-    Token *tokenObj = new Token(token.trimmed(), "STRING");
+    Token *tokenObj = new Token(token.trimmed(), Enum::TokenTypes::STRING);
     _tokens.append(tokenObj);
 }
 
