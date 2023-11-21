@@ -1,3 +1,4 @@
+
 #include "dbadapter.h"
 #include "../fileinfo/fileinfo.h"
 #include <QList>

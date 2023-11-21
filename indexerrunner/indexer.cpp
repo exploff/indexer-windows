@@ -46,6 +46,8 @@ void Indexer::run() {
             dbAdapter.prepareSaveTransaction();
         }
 
+        //Voir pour optimiser : it.fileInfo(); et ne plus utiliser fileInfo, directement passer le QFileInfo
+
         //qDebug() << it.next();
         fileMetadata.setFile(it.next());
         //qDebug() << fileMetadata.fileName();

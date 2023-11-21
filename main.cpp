@@ -47,7 +47,28 @@ int main(int argc, char *argv[])
 
     CommandHandler commandHandler;
 
-    commandHandler.processCommand("GET WHITELIST");
+    //commandHandler.processCommand("INDEXER STOP");
+
+    //commandHandler.processCommand("GET SKIPPED_FILTERS");
+
+    //commandHandler.processCommand("ADD SKIPPED_FILTERS \"C:\/"");
+
+    //Faire à la fin
+    //Gérer les C:/ d:/ et les /home/documents etc et gérer les sauts de lignes
+    //commandHandler.processCommand("PUSH SKIPPED_FILTERS /home/documents DONE");
+
+    //Gérer les dates avec days etc
+    //Gérer les extensions
+    //Gérer les types
+    commandHandler.processCommand("SEARCH \"testme please\" \
+        LAST_MODIFIED:BETWEEN 2 days and 3 days \
+        CREATED:31/12/2020 \
+        MAX_SIZE:10M \
+        MIN_SIZE:BETWEEN 1M AND 10M \
+        SIZE:BETWEEN 10M AND 20M \
+        EXT:txt,doc,xlsx \
+        TYPE:image OR text  \
+        DONE");
 
     dbAdapter = DBAdapter(appDataLocation, dbFileName);
     dbAdapter.open();

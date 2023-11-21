@@ -19,6 +19,12 @@ std::string GetAction::getName() {
 
 void GetAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
+
+    // Déclencher status recherche start
+    // Ouvrir une connexion à la DB
+        // Rechercher la donnée
+    // Renvoyer le resultat
+    // Déclencher status recherche end
 }
 
 void GetAction::notify() {

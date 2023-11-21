@@ -6,10 +6,14 @@
 #include <QJsonObject>
 #include <QRegularExpression>
 #include <QObject>
-
+#include <QMimeDatabase>
 
 
 Normalizer::Normalizer(){
+
+    //QMimeDatabase mimeDatabase;
+    //_mimeDatabase = mimeDatabase;
+
     _dictionary["COMMANDE"] << "INDEXER" << "GET" << "ADD" << "PUSH" << "CLEAR" << "SEARCH";
 }
 
@@ -92,16 +96,47 @@ QString Normalizer::getType(QString token) {
         return "DOUBLE";
     }
 
+    re.setPattern("^(LAST_MODIFIED|CREATED|MAX_SIZE|MIN_SIZE|SIZE|EXT|TYPE)$");
+    if (re.match(token).hasMatch()) {
+        return "OPTIONS";
+    }
+
+    if (token != ":" && token != "," &&  token != "OR" && isExtension(token)) {
+        return "EXTENSION";
+    }
+
+    re.setPattern("^(exec|image|text)$");
+    if (re.match(token).hasMatch()) {
+        return "TYPE";
+    }
+
     re.setPattern("^[a-zA-Z_]{1}[0-9a-zA-Z_]+");
     if (re.match(token).hasMatch()) {
         return "IDENTIFIER";
     }
+
     re.setPattern("^\\d+$");
     if (re.match(token).hasMatch()) {
         return "NUMBER";
     }
 
     return "TOKEN_UNKNOWN";
+}
+
+bool Normalizer::isExtension(QString token) {
+    QMimeType mimeType = _mimeDatabase.mimeTypeForFile("file." + token);
+
+    if (mimeType.isValid()) {
+        int i = _tokens.size() -1;
+        while (i >= 0) {
+            Token* t = _tokens[i];
+            if (t->type() == "OPTIONS") {
+                return t->value() == "EXT";
+            }
+            i = i - 1;
+        }
+    }
+    return false;
 }
 
 void Normalizer::addToken(QString token) {
@@ -126,6 +161,9 @@ void Normalizer::addToken(QString token) {
             return;
         }
     }
+
+
+
 
     Token *tokenObj = new Token(token, type);
     _tokens.append(tokenObj);

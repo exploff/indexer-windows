@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QObject>
+#include <QMimeDatabase>
 
 class Normalizer
 {
@@ -21,8 +22,10 @@ class Normalizer
         void addToken(QString token);
         void addTokenString(QString token);
         void addToken(QStringList tokens);
+        bool isExtension(QString token);
         QString getType(QString token);
 
+        QMimeDatabase _mimeDatabase;
         QList<Token*> _tokens;
         QMap<QString, QStringList> _dictionary;
  };
