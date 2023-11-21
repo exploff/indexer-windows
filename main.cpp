@@ -51,15 +51,17 @@ int main(int argc, char *argv[])
 
     //commandHandler.processCommand("GET SKIPPED_FILTERS");
 
-    //commandHandler.processCommand("ADD SKIPPED_FILTERS \"C:\/"");
+    commandHandler.processCommand("ADD SKIPPED_FILTERS \"C:/document/txt.txt\"");
 
     //Faire à la fin
     //Gérer les C:/ d:/ et les /home/documents etc et gérer les sauts de lignes
-    //commandHandler.processCommand("PUSH SKIPPED_FILTERS /home/documents DONE");
+    commandHandler.processCommand("PUSH SKIPPED_FILTERS \
+        /home/documents \
+        C:/Documents/text.txt \
+        DONE");
 
-    //Gérer les dates avec days etc
-    //Gérer les extensions
-    //Gérer les types
+    //commandHandler.processCommand("PUSH SKIPPED_FILTERS /home/documents C:/Documents/text.txt DONE");
+
     commandHandler.processCommand("SEARCH \"testme please\" \
         LAST_MODIFIED:BETWEEN 2 days and 3 days \
         CREATED:31/12/2020 \

@@ -37,6 +37,9 @@ class Enum : public QObject
             EXTENSION,
             TYPE,
             TOKEN_UNKNOWN,
+            OPERATOR,
+            COLON,
+            COMMA,
             FINAL
         };
         Q_ENUM(TokenTypes)

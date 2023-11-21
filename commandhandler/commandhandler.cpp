@@ -11,7 +11,7 @@ void CommandHandler::processCommand(const QString input)
     this->normalizer.tokenize(input);
     for (Token* token : this->normalizer.tokens()) {
         qDebug() << "Value: " << token->value();
-        qDebug() << "Type: " << token->type();
+        qDebug() << "Type: " << token->typeString();
     }
 
     Parser* indexerParser = this->parserFactory.build(this->normalizer.tokens());

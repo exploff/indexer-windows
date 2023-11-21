@@ -11,9 +11,11 @@ public:
 
     QString value() const;
     Enum::TokenTypes type() const;
+    QString typeString() const;
 
 private:
     QString _value;
+    QString _typeString;
     Enum::TokenTypes _type;
 };
 

@@ -16,6 +16,13 @@ Normalizer::Normalizer(){
     //_mimeDatabase = mimeDatabase;
 
     _dictionary[Enum::TokenTypes::COMMANDE] << "INDEXER" << "GET" << "ADD" << "PUSH" << "CLEAR" << "SEARCH";
+    _dictionary[Enum::TokenTypes::COLON] << ":";
+    _dictionary[Enum::TokenTypes::COMMA] << ",";
+    _dictionary[Enum::TokenTypes::OPTIONS] << "LAST_MODIFIED" << "CREATED" << "MAX_SIZE" << "MIN_SIZE" << "SIZE" << "EXT" << "TYPE";
+    _dictionary[Enum::TokenTypes::OPERATOR] << "BETWEEN" << "OR" << "AND" << "SINCE" << "LAST" << "AGO";
+    _dictionary[Enum::TokenTypes::TIME_UNIT] << "MINUTES" << "DAYS" << "HOURS" << "MONTHS" << "YEAR";
+    _dictionary[Enum::TokenTypes::TYPE] << "image" << "text" << "exec";
+
 }
 
 
@@ -52,6 +59,7 @@ void Normalizer::tokenize(QString source) {
         } else {               // If 's' is outside quotes ...
 
             s.replace(re_addSpaceAround, " \\1 ");
+
             s = s.trimmed();
             // removes comments
             s.replace(re_replaceComments, "");
@@ -77,11 +85,6 @@ Enum::TokenTypes Normalizer::getType(QString token) {
     static QRegularExpression re;
     re.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
-    re.setPattern("\\b(MINUTES|HOURS|DAYS|MONTHS|YEARS)\\b");
-    if (re.match(token).hasMatch()) {
-        return Enum::TokenTypes::TIME_UNIT;
-    }
-
     re.setPattern("\\d{2}/\\d{2}/?");
     if (re.match(token).hasMatch()) {
         return Enum::TokenTypes::DATE;
@@ -97,18 +100,8 @@ Enum::TokenTypes Normalizer::getType(QString token) {
         return Enum::TokenTypes::DOUBLE;
     }
 
-    re.setPattern("^(LAST_MODIFIED|CREATED|MAX_SIZE|MIN_SIZE|SIZE|EXT|TYPE)$");
-    if (re.match(token).hasMatch()) {
-        return Enum::TokenTypes::OPTIONS;
-    }
-
-    if (token != ":" && token != "," &&  token != "OR" && isExtension(token)) {
+    if (isExtension(token)) {
         return Enum::TokenTypes::EXTENSION;
-    }
-
-    re.setPattern("^(exec|image|text)$");
-    if (re.match(token).hasMatch()) {
-        return Enum::TokenTypes::TYPE;
     }
 
     re.setPattern("^[a-zA-Z_]{1}[0-9a-zA-Z_]+");
@@ -129,6 +122,7 @@ bool Normalizer::isExtension(QString token) {
 
     if (mimeType.isValid()) {
         int i = _tokens.size() -1;
+        //Get last token options and check if is OPTIONS EXT
         while (i >= 0) {
             Token* t = _tokens[i];
             if (t->type() == Enum::TokenTypes::OPTIONS) {
