@@ -33,7 +33,7 @@ void IndexerAction::run() {
     qDebug() << "IndexerAction START";
 
     //Dossier racine que l'on doit indéxer
-    QString dirPath = "C:\\";
+    QString dirPath = "C:\\Users\\Julien\\Documents\\Cours";
 
     //Extension que l'on indexe
     QStringList ext;
