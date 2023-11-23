@@ -6,11 +6,20 @@
 #include "common/token/token.h"
 #include <QString>
 #include <QList>
+
+
 class ParserFactory
 {
-public:
-    ParserFactory();
-    Parser* build(QList<Token*> line);
+    public:
+        ParserFactory();
+        ~ParserFactory();
+        Parser* build(QString command, QList<Token*> line);
+        void Register(QString command, CreateParserFn fn);
+
+    private:
+        QMap<QString, CreateParserFn> m_factoryMap;
+        QList<Parser *>               parserList;
+
 };
 
 #endif // PARSERFACTORY_H

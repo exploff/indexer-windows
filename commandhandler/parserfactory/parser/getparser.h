@@ -1,18 +1,15 @@
-// Parser.h
-
-#ifndef INDEXERPARSER_H
-#define INDEXERPARSER_H
+#ifndef GETPARSER_H
+#define GETPARSER_H
 
 #include "commandhandler/parserfactory/parser/tparser.h"
 #include "common/action/action.h"
 #include <QString>
 
-class IndexerParser : public TParser<IndexerParser> {
+class GetParser : public TParser<GetParser> {
 public:
-    IndexerParser();
+    GetParser();
 
     virtual Action* parse() override;
-
 };
 
-#endif // INDEXERPARSER_H
+#endif // GETPARSER_H

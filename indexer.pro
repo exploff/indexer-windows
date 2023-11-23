@@ -16,6 +16,12 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
 SOURCES += \
+    commandhandler/parserfactory/parser/parser.cpp \
+    commandhandler/parserfactory/parser/searchparser.cpp \
+    common/action/addaction.cpp \
+    common/action/clearaction.cpp \
+    common/action/pushaction.cpp \
+    common/action/searchaction.cpp \
     common/token/token.cpp \
     common\dbadapter\dbadapter.cpp \
     common\fileinfo\fileinfo.cpp \
@@ -40,6 +46,16 @@ RESOURCES += \
     dataset.qrc
 
 HEADERS += \
+    commandhandler/parserfactory/parser/addparser.h \
+    commandhandler/parserfactory/parser/clearparser.h \
+    commandhandler/parserfactory/parser/getparser.h \
+    commandhandler/parserfactory/parser/pushparser.h \
+    commandhandler/parserfactory/parser/searchparser.h \
+    commandhandler/parserfactory/parser/tparser.h \
+    common/action/addaction.h \
+    common/action/clearaction.h \
+    common/action/pushaction.h \
+    common/action/searchaction.h \
     common/constants.h \
     commandhandler/parserfactory/parser/indexerparser.h \
     common/token/token.h \

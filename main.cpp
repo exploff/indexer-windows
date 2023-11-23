@@ -47,12 +47,13 @@ int main(int argc, char *argv[])
 
     CommandHandler commandHandler;
 
-    //commandHandler.processCommand("INDEXER STOP");
+    commandHandler.processCommand("INDEXER STOP");
 
-    //commandHandler.processCommand("GET SKIPPED_FILTERS");
+    commandHandler.processCommand("GET SKIPPED_FILTERS");
 
     commandHandler.processCommand("ADD SKIPPED_FILTERS \"C:/document/txt.txt\"");
 
+    /*
     //Faire à la fin
     //Gérer les C:/ d:/ et les /home/documents etc et gérer les sauts de lignes
     commandHandler.processCommand("PUSH SKIPPED_FILTERS \
@@ -72,6 +73,7 @@ int main(int argc, char *argv[])
         TYPE:image OR text  \
         DONE");
 
+*/
     dbAdapter = DBAdapter(appDataLocation, dbFileName);
     dbAdapter.open();
 

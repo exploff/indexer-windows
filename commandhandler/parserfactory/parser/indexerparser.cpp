@@ -8,8 +8,9 @@ IndexerParser::IndexerParser()
 {
 
 }
+
 Action* IndexerParser::parse()
 {
-    return  new IndexerAction("INDEXER");
+    return new IndexerAction("INDEXER");
 }
 

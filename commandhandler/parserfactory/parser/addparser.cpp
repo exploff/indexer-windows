@@ -1,10 +1,15 @@
-//#include "parser.h"
-//#include <QString>
-//class AddParser : public Parser {
-//public:
-//    bool parse(const QString& input) override {
-//        // Implement your parsing logic here
-//        // Return true if parsing succeeds, false otherwise
-//        return true;
-//    }
-//};
+#include "addparser.h"
+#include <QString>
+
+#include "common/action/action.h"
+#include "common/action/addaction.h"
+
+AddParser::AddParser()
+{
+
+}
+
+Action* AddParser::parse()
+{
+    return new AddAction("ADD");
+}

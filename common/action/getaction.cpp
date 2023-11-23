@@ -1,9 +1,8 @@
 #include "getaction.h"
-#include <string>
 #include <QDebug>
 #include "../dbadapter/dbadapter.h"
 
-GetAction::GetAction(std::string name)
+GetAction::GetAction(QString name)
 {
     qDebug() << "GetAction constructor" << __LINE__ << __FUNCTION__;
     this->name = name;
@@ -13,7 +12,7 @@ GetAction::~GetAction() {
     qDebug() << "GetAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-std::string GetAction::getName() {
+QString GetAction::getName() {
     return this->name;
 }
 

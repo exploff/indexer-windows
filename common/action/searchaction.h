@@ -1,13 +1,16 @@
-#ifndef GETACTION_H
-#define GETACTION_H
+#ifndef SEARCHACTION_H
+#define SEARCHACTION_H
+
 
 #include "action.h"
 #include "../dbadapter/dbadapter.h"
+#include <QObject>
 
-class GetAction : public Action {
+class SearchAction : public Action
+{
 public:
-    GetAction(QString name);
-    virtual ~GetAction();
+    SearchAction(QString name);
+    virtual ~SearchAction();
     virtual QString getName() override;
     virtual void notify() override;
     virtual void run() override;
@@ -16,4 +19,4 @@ private:
 
 };
 
-#endif // GETACTION_H
+#endif // SEARCHACTION_H

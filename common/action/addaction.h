@@ -1,16 +1,14 @@
-#ifndef INDEXERACTION_H
-#define INDEXERACTION_H
+#ifndef ADDACTION_H
+#define ADDACTION_H
 
 #include "action.h"
 #include "../dbadapter/dbadapter.h"
-#include <QObject>
 
-class IndexerAction : public Action
+class AddAction: public Action
 {
-
     public:
-        IndexerAction(QString name);
-        virtual ~IndexerAction();
+        AddAction(QString name);
+        virtual ~AddAction();
         virtual QString getName() override;
         virtual void notify() override;
         virtual void run() override;
@@ -19,4 +17,4 @@ class IndexerAction : public Action
 
 };
 
-#endif // INDEXERACTION_H
+#endif // ADDACTION_H

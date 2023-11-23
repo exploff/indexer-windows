@@ -1,6 +1,7 @@
 #include "commandhandler.h"
 #include "QDebug"
 #include <QMetaEnum>
+#include "common/enum/enum.h"
 CommandHandler::CommandHandler()
 {
 
@@ -14,10 +15,15 @@ void CommandHandler::processCommand(const QString input)
         qDebug() << "Type: " << token->typeString();
     }
 
-    Parser* indexerParser = this->parserFactory.build(this->normalizer.tokens());
-    Action* indexerAction = indexerParser->parse();
+    Token* commandToken = this->normalizer.tokens()[0];
+    if (commandToken->type() == Enum::TokenTypes::COMMANDE) {
+        QString commandName = commandToken->value();
 
-    //this->executor.runAction(indexerAction);
+        Parser* parser = this->parserFactory.build(commandName, this->normalizer.tokens());
+        Action* action = parser->parse();
+
+        this->executor.runAction(action);
+    }
 
 
     //this->executor.runAction(this->parserFactory.build(this->normalizer.tokens())->parse());

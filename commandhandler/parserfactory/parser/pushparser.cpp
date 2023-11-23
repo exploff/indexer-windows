@@ -1,10 +1,16 @@
-//#include "parser.h"
-//#include <QString>
-//class PushParser : public Parser {
-//public:
-//    bool parse(const QString& input) override {
-//        // Implement your parsing logic here
-//        // Return true if parsing succeeds, false otherwise
-//        return true;
-//    }
-//};
+#include "pushparser.h"
+#include <QString>
+
+#include "common/action/action.h"
+#include "common/action/pushaction.h"
+
+PushParser::PushParser()
+{
+
+}
+
+Action* PushParser::parse()
+{
+    return new PushAction("PUSH");
+}
+

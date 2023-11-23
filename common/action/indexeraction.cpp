@@ -1,4 +1,3 @@
-#include <string>
 #include <QDebug>
 #include <QObject>
 #include "indexeraction.h"
@@ -11,7 +10,7 @@
  * @brief IndexerAction::IndexerAction
  * @param name
  */
-IndexerAction::IndexerAction(std::string name)
+IndexerAction::IndexerAction(QString name)
 {
     qDebug() << "IndexerAction constructor" << __LINE__ << __FUNCTION__;
     this->name = name;
@@ -23,7 +22,7 @@ IndexerAction::~IndexerAction()
     qDebug() << "IndexerAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-std::string IndexerAction::getName() {
+QString IndexerAction::getName() {
     return this->name;
 }
 
@@ -33,7 +32,7 @@ void IndexerAction::run() {
     qDebug() << "IndexerAction START";
 
     //Dossier racine que l'on doit indéxer
-    QString dirPath = "C:\\";
+    QString dirPath = "C:\\Users\\Julien\\Documents";
 
     //Extension que l'on indexe
     QStringList ext;

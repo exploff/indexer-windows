@@ -1,41 +1,56 @@
 #include "parserfactory.h"
 #include "commandhandler/parserfactory/parser/indexerparser.h"
+#include "commandhandler/parserfactory/parser/addparser.h"
+#include "commandhandler/parserfactory/parser/getparser.h"
+#include "commandhandler/parserfactory/parser/pushparser.h"
+#include "commandhandler/parserfactory/parser/clearparser.h"
+#include "commandhandler/parserfactory/parser/searchparser.h"
 
 ParserFactory::ParserFactory()
 {
+    Register("INDEXER", &IndexerParser::create);
+    Register("ADD", &AddParser::create);
+    Register("GET", &GetParser::create);
+    Register("PUSH", &PushParser::create);
+    Register("CLEAR", &ClearParser::create);
+    Register("SEARCH", &SearchParser::create);
 
 }
-Parser* ParserFactory::build(QList<Token*> tokenList)
+
+ParserFactory::~ParserFactory() {
+
+    foreach(auto parser, parserList) {
+        delete parser;
+    }
+}
+
+void ParserFactory::Register(QString command, CreateParserFn fn)
 {
-    Token* commandeToken = nullptr;
-    for (Token* token : tokenList) {
-        if (token->type() == Enum::TokenTypes::COMMANDE) {
-            commandeToken = token;
-            break;
-        }
+    qDebug() << __FUNCTION__ << command << fn;
+    m_factoryMap[command] = fn;
+}
+
+
+Parser* ParserFactory::build(QString command, QList<Token*> tokenList)
+{
+    qDebug() << __FUNCTION__ << "START BUILD PARSER";
+
+    CreateParserFn fn = m_factoryMap[command];
+    if (fn == nullptr) {
+        qDebug() << "NULL POINTER - COMMAND EXISTE PAS";
+        //@Todo : declencher exception
     }
-    if(commandeToken){
-        QString commande = commandeToken->value().toUpper();
-        if (commande == "INDEXER") {
-           return new IndexerParser();
-        } else if (commande == "GET") {
-           qDebug() << "Handle the 'GET' case";
-           return new IndexerParser();
-        } else if (commande == "ADD") {
-           qDebug() << "Handle the 'ADD' case";
-           return new IndexerParser();
-        } else if (commande == "PUSH") {
-            qDebug() << "Handle the 'PUSH' case";
-           return new IndexerParser();
-        } else if (commande == "CLEAR") {
-            qDebug() << "Handle the 'CLEAR' case";
-           return new IndexerParser();
-        } else if (commande == "SEARCH") {
-            qDebug() << "Handle the 'SEARCH' case";
-           return new IndexerParser();
-        }
-    }else{
-        qDebug() << "do not Handle commande";
-        return new IndexerParser();
-    }
+
+    qDebug() << "#############";
+    qDebug() << "CREATE PARSER";
+    Parser* parser = fn();
+
+    parser->setTokens(tokenList);
+    parser->setCommand(command);
+
+    qDebug() << "#############";
+
+    parserList.append(parser);
+
+    return parser;
 }

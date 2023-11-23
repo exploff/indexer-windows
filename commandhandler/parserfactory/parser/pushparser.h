@@ -1,18 +1,16 @@
-// Parser.h
-
-#ifndef INDEXERPARSER_H
-#define INDEXERPARSER_H
+#ifndef PUSHPARSER_H
+#define PUSHPARSER_H
 
 #include "commandhandler/parserfactory/parser/tparser.h"
 #include "common/action/action.h"
 #include <QString>
 
-class IndexerParser : public TParser<IndexerParser> {
+class PushParser : public TParser<PushParser> {
 public:
-    IndexerParser();
+    PushParser();
 
     virtual Action* parse() override;
-
 };
 
-#endif // INDEXERPARSER_H
+
+#endif // PUSHPARSER_H
