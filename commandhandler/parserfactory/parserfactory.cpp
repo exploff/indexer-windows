@@ -31,13 +31,14 @@ void ParserFactory::Register(QString command, CreateParserFn fn)
 }
 
 
-Parser* ParserFactory::build(QString command, QList<Token*> tokenList)
+Parser* ParserFactory::build(QString command, const QList<Token*>& tokenList)
 {
     qDebug() << __FUNCTION__ << "START BUILD PARSER";
 
     CreateParserFn fn = m_factoryMap[command];
     if (fn == nullptr) {
         qDebug() << "NULL POINTER - COMMAND EXISTE PAS";
+
         //@Todo : declencher exception
     }
 

@@ -13,7 +13,7 @@ class ParserFactory
     public:
         ParserFactory();
         ~ParserFactory();
-        Parser* build(QString command, QList<Token*> line);
+        Parser* build(QString command, const QList<Token*>& line);
         void Register(QString command, CreateParserFn fn);
 
     private:

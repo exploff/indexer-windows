@@ -14,7 +14,7 @@ class Parser {
     public:
         virtual ~Parser() {}
         virtual Action* parse() = 0;
-        virtual void setTokens(QList<Token*> tokens);
+        virtual void setTokens(const QList<Token*>& tokens);
         virtual void setCommand(QString command);
 
     private:

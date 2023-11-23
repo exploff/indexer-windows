@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QObject>
 #include "indexeraction.h"
-
+#include "indexerrunner/indexerrunner.h"
 #include "indexerrunner/indexer.h"
 
 /**
@@ -31,6 +31,10 @@ void IndexerAction::run() {
 
     qDebug() << "IndexerAction START";
 
+    IndexerRunner* indexerRunner = IndexerRunner::getInstance();
+    indexerRunner->start();
+
+    /*
     //Dossier racine que l'on doit indéxer
     QString dirPath = "C:\\Users\\Julien\\Documents";
 
@@ -45,6 +49,7 @@ void IndexerAction::run() {
 
     // TODO : A SUPPRIMER
     indexerThread->wait();
+*/
 
     qDebug() << "IndexerAction END";
 }

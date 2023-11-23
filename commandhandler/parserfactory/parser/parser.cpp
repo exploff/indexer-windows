@@ -1,7 +1,7 @@
 #include "parser.h"
 #include <QDebug>
 
-void Parser::setTokens(QList<Token *> tokens) {
+void Parser::setTokens(const QList<Token *>& tokens) {
     qDebug() << __FUNCTION__ << tokens.size();
     _tokens = tokens;
 }

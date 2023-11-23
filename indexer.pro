@@ -35,6 +35,7 @@ SOURCES += \
     commandhandler/parserfactory/parser/clearparser.cpp \
     commandhandler/parserfactory/parser/getparser.cpp \
     commandhandler/parserfactory/parser/pushparser.cpp \
+    indexerrunner/indexerrunner.cpp \
     main.cpp \
     commandhandler\normalizer\normalizer.cpp \
     commandhandler\parserfactory\parser\indexerparser.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     commandhandler\normalizer\normalizer.h \
     commandhandler\parserfactory\parser\parser.h \
     commandhandler\parserfactory\parserfactory.h \
+    indexerrunner/indexerrunner.h \
     server.h
 
 CONFIG += lrelease
