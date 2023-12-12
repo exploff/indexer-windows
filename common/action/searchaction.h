@@ -4,18 +4,19 @@
 
 #include "action.h"
 #include "../dbadapter/dbadapter.h"
+#include "../searchoption.h"
 #include <QObject>
 
 class SearchAction : public Action
 {
 
 public:
-    SearchAction(QString name);
+    SearchAction(SearchOption searchOption);
     virtual ~SearchAction();
     virtual void notify() override;
     virtual void run() override;
 private:
-    QString name;
+    SearchOption _searchOption;
 
 };
 

@@ -15,6 +15,16 @@ SearchOption::~SearchOption()
     delete this->_types;
 }
 
+void SearchOption::setValue(QString value)
+{
+    this->_value = value;
+}
+
+QString SearchOption::getValue()
+{
+    return this->_value;
+}
+
 
 void SearchOption::setLastModifiedDate(DateSpec lastModifiedDate)
 {

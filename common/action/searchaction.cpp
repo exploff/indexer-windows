@@ -2,10 +2,9 @@
 #include <QDebug>
 #include "../dbadapter/dbadapter.h"
 
-SearchAction::SearchAction(QString name)
+SearchAction::SearchAction(SearchOption searchOption): _searchOption(searchOption)
 {
     qDebug() << __LINE__ << __FUNCTION__;
-    this->name = name;
 }
 
 SearchAction::~SearchAction() {
@@ -14,8 +13,6 @@ SearchAction::~SearchAction() {
 
 void SearchAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
-
-
 }
 
 void SearchAction::notify() {

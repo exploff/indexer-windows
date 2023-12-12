@@ -10,6 +10,10 @@ class SearchOption
     public:
         SearchOption();
         ~SearchOption();
+
+        void setValue(QString value);
+        QString getValue();
+
         void setLastModifiedDate(DateSpec lastModifiedDate);
         DateSpec getLastModifiedDate();
         bool hasLastModifiedDate();
@@ -39,6 +43,8 @@ class SearchOption
         bool hasTypes();
 
     private:
+        QString _value;
+
         DateSpec _lastModifiedDate;
         DateSpec _createdDate;
         SizeSpec _maxSize;
