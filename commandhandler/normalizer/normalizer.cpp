@@ -104,6 +104,11 @@ Enum::TokenTypes Normalizer::getType(QString token) {
         return Enum::TokenTypes::EXTENSION;
     }
 
+    re.setPattern("\\b(WHITELIST|BLACKLIST|FILTERS|SKIPPED_FILTERS)\\b");
+    if (re.match(token).hasMatch()) {
+        return Enum::TokenTypes::TABLE;
+    }
+
     re.setPattern("^[a-zA-Z_]{1}[0-9a-zA-Z_]+");
     if (re.match(token).hasMatch()) {
         return Enum::TokenTypes::IDENTIFIER;
