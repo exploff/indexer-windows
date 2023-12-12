@@ -12,10 +12,6 @@ AddAction::~AddAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-QString AddAction::getName() {
-    return this->name;
-}
-
 void AddAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 }

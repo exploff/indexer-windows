@@ -9,7 +9,6 @@ class AddAction: public Action
     public:
         AddAction(QString name);
         virtual ~AddAction();
-        virtual QString getName() override;
         virtual void notify() override;
         virtual void run() override;
     private:

@@ -10,7 +10,6 @@ class ClearAction : public Action
 public:
     ClearAction(QString name);
     virtual ~ClearAction();
-    virtual QString getName() override;
     virtual void notify() override;
     virtual void run() override;
 private:

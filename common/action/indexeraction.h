@@ -11,7 +11,6 @@ class IndexerAction : public Action
     public:
         IndexerAction(QString name);
         virtual ~IndexerAction();
-        virtual QString getName() override;
         virtual void notify() override;
         virtual void run() override;
     private:

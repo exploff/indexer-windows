@@ -22,10 +22,6 @@ IndexerAction::~IndexerAction()
     qDebug() << "IndexerAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-QString IndexerAction::getName() {
-    return this->name;
-}
-
 void IndexerAction::run() {
     qDebug() << "IndexerAction" << __FUNCTION__ << __LINE__;
 

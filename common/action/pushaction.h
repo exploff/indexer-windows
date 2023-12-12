@@ -9,7 +9,6 @@ class PushAction : public Action
     public:
         PushAction(QString name);
         virtual ~PushAction();
-        virtual QString getName() override;
         virtual void notify() override;
         virtual void run() override;
     private:

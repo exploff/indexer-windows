@@ -12,10 +12,6 @@ GetAction::~GetAction() {
     qDebug() << "GetAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-QString GetAction::getName() {
-    return this->name;
-}
-
 void GetAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 
