@@ -22,6 +22,9 @@ SOURCES += \
     common/action/clearaction.cpp \
     common/action/pushaction.cpp \
     common/action/searchaction.cpp \
+    common/searchoption.cpp \
+    common/spec/datespec.cpp \
+    common/spec/sizespec.cpp \
     common/token/token.cpp \
     common\dbadapter\dbadapter.cpp \
     common\fileinfo\fileinfo.cpp \
@@ -57,6 +60,9 @@ HEADERS += \
     common/action/clearaction.h \
     common/action/pushaction.h \
     common/action/searchaction.h \
+    common/searchoption.h \
+    common/spec/datespec.h \
+    common/spec/sizespec.h \
     common/constants.h \
     commandhandler/parserfactory/parser/indexerparser.h \
     common/token/token.h \

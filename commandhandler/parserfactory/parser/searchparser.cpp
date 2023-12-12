@@ -12,6 +12,13 @@ SearchParser::SearchParser()
 
 Action* SearchParser::parse()
 {
-    return new SearchAction("SEARCH");
+    SearchOption* searchOption = new SearchOption();
+
+
+    QList<Token*> tokens = this->getTokens();
+
+
+
+    return new SearchAction(*searchOption);
 }
 

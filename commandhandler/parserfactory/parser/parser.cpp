@@ -10,3 +10,8 @@ void Parser::setCommand(QString command) {
     qDebug() << __FUNCTION__ << command;
     _command = command;
 }
+
+QList<Token*> Parser::getTokens()
+{
+    return this->_tokens;
+}
