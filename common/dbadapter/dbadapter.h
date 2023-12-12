@@ -21,6 +21,8 @@ class DBAdapter
         void commitTransaction();
         void dropTable(QString tableName);
         QList<FileInfo> getAll();
+        void addAction(QString table,QList<QString> folderOrTypes);
+        QList<QString> getAction(QString table);
     private:
         QSqlDatabase db;
         QSqlQuery * query;

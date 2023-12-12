@@ -66,22 +66,71 @@ int DBAdapter::initTables()
 {
     // create table
     QString tblFile = "CREATE TABLE IF NOT EXISTS files ("
-                            "path STRING,"
-                            "fileName STRING,"
-                            "modifiedDate DATE,"
-                            "createdDate DATE,"
-                            "size BIGINT,"
-                            "extension STRING,"
-                            "type STRING,"
-                            "PRIMARY KEY (path, fileName)"
-                            ")";
+                      "path STRING,"
+                      "fileName STRING,"
+                      "modifiedDate DATE,"
+                      "createdDate DATE,"
+                      "size BIGINT,"
+                      "extension STRING,"
+                      "type STRING,"
+                      "PRIMARY KEY (path, fileName)"
+                      ")";
+    QString whiteList = "CREATE TABLE IF NOT EXISTS WHITELIST ("
+                        "path STRING,"
+                        "PRIMARY KEY (path)"
+                        ")";
+    QString blackList = "CREATE TABLE IF NOT EXISTS BLACKLIST ("
+                        "path STRING,"
+                        "PRIMARY KEY (path)"
+                        ")";
+    QString filters = "CREATE TABLE IF NOT EXISTS FILTERS ("
+                      "extension STRING,"
+                      "PRIMARY KEY (extension)"
+                      ")";
+    QString skippedFilters = "CREATE TABLE IF NOT EXISTS SKIPPED_FILTERS ("
+                             "extension STRING,"
+                             "PRIMARY KEY (extension)"
+                             ")";
+
     QSqlQuery query;
     query.exec(tblFile);
     if (query.lastError().isValid()) {
         qWarning() << "create table files" << query.lastError().text();
         return -1;
     }
-    qDebug() << __FUNCTION__ << __LINE__ << "Init table";
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table files";
+    query.finish();
+
+    query.exec(whiteList);
+    if (query.lastError().isValid()) {
+        qWarning() << "create table whiteList" << query.lastError().text();
+        return -1;
+    }
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table whiteList";
+    query.finish();
+
+    query.exec(blackList);
+    if (query.lastError().isValid()) {
+        qWarning() << "create table blackList" << query.lastError().text();
+        return -1;
+    }
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table blackList";
+    query.finish();
+
+    query.exec(filters);
+    if (query.lastError().isValid()) {
+        qWarning() << "create table filters" << query.lastError().text();
+        return -1;
+    }
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table filters";
+    query.finish();
+
+    query.exec(skippedFilters);
+    if (query.lastError().isValid()) {
+        qWarning() << "create table skippedFilters" << query.lastError().text();
+        return -1;
+    }
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table skippedFilters";
     query.finish();
 
     return 0;
@@ -185,4 +234,46 @@ void DBAdapter::dropTable(QString tableName) {
         qWarning() << sqlDrop << query.lastError().text();
     }
 
+}
+
+void DBAdapter::addAction(QString table, QList<QString> folderOrTypes) {
+    qDebug() << "add to table " + table;
+    QSqlQuery query;
+
+    for (const QString &value : folderOrTypes) {
+
+        QString sqlInsert ="INSERT INTO " + table + " VALUES (\"" + value + "\")";
+
+        query.exec(sqlInsert);
+        if (query.lastError().isValid()) {
+            qWarning() << sqlInsert << query.lastError().text();
+        }
+
+        query.finish();
+    }
+}
+
+QList<QString> DBAdapter::getAction(QString table) {
+    qDebug() << "add to table " + table;
+    QSqlQuery query;
+    QList<QString> resultList;
+
+    QString sqlGet ="select * from  " + table;
+
+    query.exec(sqlGet);
+    if (query.lastError().isValid()) {
+        qWarning() << sqlGet << query.lastError().text();
+        return resultList;
+    }
+    while (query.next()) {
+        // Assuming there is a single column in the result set, adjust as needed
+        QString columnValue = query.value(0).toString();
+        resultList.append(columnValue);
+    }
+    query.finish();
+
+    for (QString string  : resultList) {
+        qDebug() << "Table: " << table << " Value:" << string;
+    }
+    return resultList;
 }
