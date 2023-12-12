@@ -40,10 +40,11 @@ class Enum : public QObject
             OPERATOR,
             COLON,
             COMMA,
-            FINAL
+            FINAL,
+            TABLE
         };
-        Q_ENUM(TokenTypes)
 
+    Q_ENUM(TokenTypes)
     Q_ENUM(FileType) // Enregistrer l'énumération pour qu'elle soit utilisable dans les signaux et slots
     Q_ENUM(Status)
 };
