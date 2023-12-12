@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="searchfsm" qt:editorversion="11.0.3" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" initial="Command">
+    <qt:editorinfo initialGeometry="42.09;59.53;-20;-20;40;40"/>
+    <state id="Command">
+        <qt:editorinfo scenegeometry="68.77;216.59;8.77;166.59;120;100" geometry="68.77;216.59;-60;-50;120;100"/>
+        <transition type="external" event="Transition_10" target="FileName">
+            <qt:editorinfo endTargetFactors="22.83;44.69"/>
+        </transition>
+    </state>
+    <state id="FileName">
+        <qt:editorinfo scenegeometry="274.07;216.59;214.07;166.59;120;100" geometry="274.07;216.59;-60;-50;120;100"/>
+        <transition type="external" event="Transition_2" target="LAST_MODIFIED">
+            <qt:editorinfo endTargetFactors="9.24;49.12"/>
+        </transition>
+        <transition type="external" event="Transition_3" target="CREATED">
+            <qt:editorinfo endTargetFactors="7.73;53.55"/>
+        </transition>
+        <transition type="external" event="Transition_4" target="MAX_SIZE">
+            <qt:editorinfo endTargetFactors="13.77;57.97"/>
+        </transition>
+        <transition type="external" event="Transition_5" target="MIN_SIZE"/>
+        <transition type="external" event="Transition_6" target="SIZE">
+            <qt:editorinfo endTargetFactors="22.07;48.50"/>
+        </transition>
+        <transition type="external" event="Transition_8" target="EXT">
+            <qt:editorinfo endTargetFactors="18.30;56.46"/>
+        </transition>
+        <transition type="external" event="Transition_9" target="TYPE">
+            <qt:editorinfo endTargetFactors="22.83;52.04"/>
+        </transition>
+    </state>
+    <state id="LAST_MODIFIED">
+        <qt:editorinfo scenegeometry="547.11;59.53;487.11;9.53;120;100" geometry="547.11;59.53;-60;-50;120;100"/>
+    </state>
+    <state id="CREATED">
+        <qt:editorinfo scenegeometry="547.11;166.28;487.11;116.28;120;100" geometry="547.11;166.28;-60;-50;120;100"/>
+    </state>
+    <state id="MAX_SIZE">
+        <qt:editorinfo scenegeometry="547.11;274.06;487.11;224.06;120;100" geometry="547.11;274.06;-60;-50;120;100"/>
+    </state>
+    <state id="MIN_SIZE">
+        <qt:editorinfo scenegeometry="547.11;380.51;487.11;330.51;120;100" geometry="547.11;380.51;-60;-50;120;100"/>
+    </state>
+    <state id="SIZE">
+        <qt:editorinfo scenegeometry="547.11;485.21;487.11;435.21;120;100" geometry="547.11;485.21;-60;-50;120;100"/>
+    </state>
+    <state id="EXT">
+        <qt:editorinfo scenegeometry="547.11;592.99;487.11;542.99;120;100" geometry="547.11;592.99;-60;-50;120;100"/>
+    </state>
+    <state id="TYPE">
+        <qt:editorinfo scenegeometry="547.11;693.58;487.11;643.58;120;100" geometry="547.11;693.58;-60;-50;120;100"/>
+    </state>
+</scxml>
