@@ -9,7 +9,7 @@ class Action {
         virtual ~Action() = default;
         virtual QString getName() = 0;
         virtual void notify() = 0;
-        virtual void run() = 0;
+        virtual void run() = 0;        
 };
 
 #endif // ACTION_H
