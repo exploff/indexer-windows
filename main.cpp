@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
     CommandHandler commandHandler;
 
-    commandHandler.processCommand("INDEXER START");
+    //commandHandler.processCommand("INDEXER START");
 
     commandHandler.processCommand("GET SKIPPED_FILTERS");
 
@@ -63,14 +63,27 @@ int main(int argc, char *argv[])
 
     qDebug() << "\n\n";
 
-    commandHandler.processCommand("SEARCH \"testme please\" \
+    /*commandHandler.processCommand("SEARCH \"testme please\" \
         LAST_MODIFIED:BETWEEN 2 days and 3 days \
+        LAST_MODIFIED: 12/12/2020 \
+        LAST_MODIFIED: SINCE LAST 45 DAYS \
+        LAST_MODIFIED: SINCE LAST 45 MINUTES \
+        LAST_MODIFIED: SINCE LAST 45 MONTHS \
+        LAST_MODIFIED: SINCE LAST 45 HOURS \
+        LAST_MODIFIED: 58 MONTHS AGO \
         CREATED:31/12/2020 \
         MAX_SIZE:10M \
         MIN_SIZE:BETWEEN 1M AND 10M \
         SIZE:BETWEEN 10M AND 20M \
         EXT:txt,doc,xlsx \
         TYPE:image OR text  \
+        DONE");
+*/
+
+commandHandler.processCommand("SEARCH \"testme please\" \
+        LAST_MODIFIED: 12/12/2020 \
+        MAX_SIZE:10M \
+        MIN_SIZE:10G \
         DONE");
 
     dbAdapter = DBAdapter(appDataLocation, dbFileName);

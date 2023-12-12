@@ -19,3 +19,4 @@ QString SizeSpec::getType()
 {
     return this->_type;
 }
+
