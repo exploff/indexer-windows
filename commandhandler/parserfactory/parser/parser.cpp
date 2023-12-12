@@ -15,3 +15,8 @@ QList<Token*> Parser::getTokens()
 {
     return this->_tokens;
 }
+
+QString Parser::getCommand() {
+    qDebug() << __FUNCTION__ ;
+    return this->_command;
+}
