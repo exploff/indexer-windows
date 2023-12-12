@@ -11,5 +11,11 @@ GetParser::GetParser()
 
 Action* GetParser::parse()
 {
-    return new GetAction("GET");
+    QString tableName;
+    for (Token* token :  this->getTokens()) {
+        if (token->type() == Enum::TokenTypes::TABLE) {
+            tableName = token->value();
+        }
+    }
+    return new GetAction(tableName);
 }

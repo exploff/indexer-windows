@@ -1,11 +1,13 @@
 #include "getaction.h"
 #include <QDebug>
 #include "../dbadapter/dbadapter.h"
+#include "common/constants.h"
+#include "qstandardpaths.h"
 
-GetAction::GetAction(QString name)
+GetAction::GetAction(QString table)
 {
     qDebug() << "GetAction constructor" << __LINE__ << __FUNCTION__;
-    this->name = name;
+    this->_table = table;
 }
 
 GetAction::~GetAction() {
@@ -13,13 +15,27 @@ GetAction::~GetAction() {
 }
 
 void GetAction::run() {
-    qDebug() << __FUNCTION__ << __LINE__;
+    if(!this->_table.isNull() && !this->_table.isEmpty()){
+        qDebug() << __FUNCTION__ << __LINE__;
 
-    // Déclencher status recherche start
-    // Ouvrir une connexion à la DB
+        // Déclencher status recherche start
+        // Ouvrir une connexion à la DB
         // Rechercher la donnée
-    // Renvoyer le resultat
-    // Déclencher status recherche end
+        // Renvoyer le resultat
+        // Déclencher status recherche end
+
+        QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        QString dbFileName = Constants::DB_FILENAME;
+
+        DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+
+        dbAdapter.open();
+        dbAdapter.getAction(this->_table);
+        dbAdapter.close();
+    }else{
+        qDebug() << "table name is empty";
+    }
+
 }
 
 void GetAction::notify() {
