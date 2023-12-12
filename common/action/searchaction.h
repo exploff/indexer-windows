@@ -11,7 +11,6 @@ class SearchAction : public Action
 public:
     SearchAction(QString name);
     virtual ~SearchAction();
-    virtual QString getName() override;
     virtual void notify() override;
     virtual void run() override;
 private:

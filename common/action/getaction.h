@@ -8,7 +8,6 @@ class GetAction : public Action {
 public:
     GetAction(QString name);
     virtual ~GetAction();
-    virtual QString getName() override;
     virtual void notify() override;
     virtual void run() override;
 private:

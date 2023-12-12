@@ -12,10 +12,6 @@ ClearAction::~ClearAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-QString ClearAction::getName() {
-    return this->name;
-}
-
 void ClearAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 }

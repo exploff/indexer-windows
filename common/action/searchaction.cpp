@@ -12,10 +12,6 @@ SearchAction::~SearchAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-QString SearchAction::getName() {
-    return this->name;
-}
-
 void SearchAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 }

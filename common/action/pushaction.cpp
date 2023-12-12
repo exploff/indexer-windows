@@ -12,10 +12,6 @@ PushAction::~PushAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-QString PushAction::getName() {
-    return this->name;
-}
-
 void PushAction::run() {
     qDebug() << __FUNCTION__ << __LINE__;
 }
