@@ -5,6 +5,7 @@
 #include "common/action/action.h"
 #include <QString>
 #include "common/spec/sizespec.h"
+#include "searchfsm.h"
 class SearchParser : public TParser<SearchParser> {
 public:
     SearchParser();

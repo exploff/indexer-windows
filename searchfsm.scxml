@@ -1,53 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="searchfsm" qt:editorversion="11.0.3" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" initial="Command">
-    <qt:editorinfo initialGeometry="42.09;59.53;-20;-20;40;40"/>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="searchfsm" qt:editorversion="11.0.3" initial="Command">
+    <qt:editorinfo initialGeometry="144.27;209.51;-20;-20;40;40"/>
     <state id="Command">
-        <qt:editorinfo scenegeometry="68.77;216.59;8.77;166.59;120;100" geometry="68.77;216.59;-60;-50;120;100"/>
-        <transition type="external" event="Transition_10" target="FileName">
-            <qt:editorinfo endTargetFactors="22.83;44.69"/>
+        <qt:editorinfo scenegeometry="129.68;434.19;69.68;384.19;120;100" geometry="129.68;434.19;-60;-50;120;100"/>
+        <transition type="external" event="isFileName" target="FILE_NAME">
+            <qt:editorinfo endTargetFactors="13.52;54.78"/>
         </transition>
     </state>
-    <state id="FileName">
-        <qt:editorinfo scenegeometry="274.07;216.59;214.07;166.59;120;100" geometry="274.07;216.59;-60;-50;120;100"/>
-        <transition type="external" event="Transition_2" target="LAST_MODIFIED">
-            <qt:editorinfo endTargetFactors="9.24;49.12"/>
+    <state id="OPTION">
+        <qt:editorinfo scenegeometry="569.55;427.17;509.55;377.17;120;100" geometry="569.55;427.17;-60;-50;120;100"/>
+        <transition type="external" event="isLastModified" target="LAST_MODIFIED">
+            <qt:editorinfo endTargetFactors="9.24;49.12" startTargetFactors="79.50;14.30"/>
         </transition>
-        <transition type="external" event="Transition_3" target="CREATED">
+        <transition type="external" event="isCreated" target="CREATED">
             <qt:editorinfo endTargetFactors="7.73;53.55"/>
         </transition>
-        <transition type="external" event="Transition_4" target="MAX_SIZE">
+        <transition type="external" event="isMaxSize" target="MAX_SIZE">
             <qt:editorinfo endTargetFactors="13.77;57.97"/>
         </transition>
-        <transition type="external" event="Transition_5" target="MIN_SIZE"/>
-        <transition type="external" event="Transition_6" target="SIZE">
+        <transition type="external" event="isMinSize" target="MIN_SIZE"/>
+        <transition type="external" event="isSize" target="SIZE">
             <qt:editorinfo endTargetFactors="22.07;48.50"/>
         </transition>
-        <transition type="external" event="Transition_8" target="EXT">
+        <transition type="external" event="isExtension" target="EXT">
             <qt:editorinfo endTargetFactors="18.30;56.46"/>
         </transition>
-        <transition type="external" event="Transition_9" target="TYPE">
+        <transition type="external" event="isType" target="TYPE">
             <qt:editorinfo endTargetFactors="22.83;52.04"/>
         </transition>
     </state>
     <state id="LAST_MODIFIED">
-        <qt:editorinfo scenegeometry="547.11;59.53;487.11;9.53;120;100" geometry="547.11;59.53;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="844.38;-210.02;777.07;-258.16;157;100" geometry="844.38;-210.02;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isDate" target="DATE">
+            <qt:editorinfo endTargetFactors="20.62;11.17" startTargetFactors="17.49;10.87"/>
+        </transition>
+        <transition type="external" event="isSinceLast" target="SINCE_LAST">
+            <qt:editorinfo startTargetFactors="90.84;63.30"/>
+        </transition>
+        <transition type="external" event="isAgo" target="AGO">
+            <qt:editorinfo endTargetFactors="5.15;34.29" startTargetFactors="93.54;78.12"/>
+        </transition>
+        <transition type="external" event="isBetween" target="BETWEEN">
+            <qt:editorinfo endTargetFactors="7.07;28.20" startTargetFactors="93.88;44.12"/>
+        </transition>
     </state>
     <state id="CREATED">
-        <qt:editorinfo scenegeometry="547.11;166.28;487.11;116.28;120;100" geometry="547.11;166.28;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;233.50;795.57;183.50;120;100" geometry="855.57;233.50;-60;-50;120;100"/>
+        <transition type="external" event="isDate" target="DATE">
+            <qt:editorinfo endTargetFactors="14.94;76.49" movePoint="-34.36;16.43" startTargetFactors="70.29;11.92"/>
+        </transition>
+        <transition type="external" event="isSinceLast" target="SINCE_LAST">
+            <qt:editorinfo endTargetFactors="20.78;75.53" startTargetFactors="86.18;58.14"/>
+        </transition>
+        <transition type="external" event="isAgo" target="AGO">
+            <qt:editorinfo endTargetFactors="8.01;82.06" startTargetFactors="90.38;81.41"/>
+        </transition>
+        <transition type="external" event="isBetween" target="BETWEEN">
+            <qt:editorinfo endTargetFactors="9.11;62.95" movePoint="-14.94;22.41" startTargetFactors="90.87;36.62"/>
+        </transition>
     </state>
     <state id="MAX_SIZE">
-        <qt:editorinfo scenegeometry="547.11;274.06;487.11;224.06;120;100" geometry="547.11;274.06;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;378.88;795.57;328.88;120;100" geometry="855.57;378.88;-60;-50;120;100"/>
+        <transition type="external" event="isNumber" target="NUMBER">
+            <qt:editorinfo endTargetFactors="11.95;54.82"/>
+        </transition>
     </state>
     <state id="MIN_SIZE">
-        <qt:editorinfo scenegeometry="547.11;380.51;487.11;330.51;120;100" geometry="547.11;380.51;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;496.86;795.57;446.86;120;100" geometry="855.57;496.86;-60;-50;120;100"/>
+        <transition type="external" event="isNumber" target="NUMBER">
+            <qt:editorinfo endTargetFactors="16.95;71.85"/>
+        </transition>
     </state>
     <state id="SIZE">
-        <qt:editorinfo scenegeometry="547.11;485.21;487.11;435.21;120;100" geometry="547.11;485.21;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;605.33;795.57;555.33;120;100" geometry="855.57;605.33;-60;-50;120;100"/>
+        <transition type="external" event="isSizeBetween" target="SIZE_BETWEEN">
+            <qt:editorinfo endTargetFactors="9.09;56.14"/>
+        </transition>
     </state>
     <state id="EXT">
-        <qt:editorinfo scenegeometry="547.11;592.99;487.11;542.99;120;100" geometry="547.11;592.99;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;715.15;795.57;665.15;120;100" geometry="855.57;715.15;-60;-50;120;100"/>
+        <transition type="external" event="isExtensionList" target="EXT_LIST">
+            <qt:editorinfo endTargetFactors="9.89;52.88"/>
+        </transition>
     </state>
     <state id="TYPE">
-        <qt:editorinfo scenegeometry="547.11;693.58;487.11;643.58;120;100" geometry="547.11;693.58;-60;-50;120;100"/>
+        <qt:editorinfo stateColor="#dfd3b6" scenegeometry="855.57;838.19;795.57;788.19;120;100" geometry="855.57;838.19;-60;-50;120;100"/>
+        <transition type="external" event="isTypeList" target="TYPE_LIST">
+            <qt:editorinfo endTargetFactors="7.50;49.69"/>
+        </transition>
+    </state>
+    <state id="FILE_NAME">
+        <qt:editorinfo scenegeometry="346.11;434.19;286.11;384.19;120;100" geometry="346.11;434.19;-60;-50;120;100"/>
+        <transition type="external" event="isOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="14.27;58.55"/>
+        </transition>
+    </state>
+    <state id="DATE">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1221.13;-177.15;1153.82;-225.29;157;100" geometry="1221.13;-177.15;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="62.48;8.43" localGeometry="0;-140.16;-633.17;-140.16"/>
+        </transition>
+    </state>
+    <state id="BETWEEN">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1221.13;-50.67;1153.82;-98.81;157;100" geometry="1221.13;-50.67;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isDateStart" target="DATE_START">
+            <qt:editorinfo endTargetFactors="11.05;48.44"/>
+        </transition>
+    </state>
+    <state id="AGO">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1224.69;231.71;1157.38;138.01;157;100" geometry="1224.69;231.71;-67.31;-93.70;157;100"/>
+        <transition type="external" event="isNumber" target="NUMBER">
+            <qt:editorinfo endTargetFactors="7.80;62.96"/>
+        </transition>
+    </state>
+    <state id="NUMBER">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1511.16;252.56;1443.85;204.42;157;100" geometry="1511.16;252.56;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isUnit" target="UNIT">
+            <qt:editorinfo endTargetFactors="9.75;57.15"/>
+        </transition>
+    </state>
+    <state id="UNIT">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1770.12;252.56;1702.81;204.42;157;100" geometry="1770.12;252.56;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="14.18;10.94" localGeometry="212.20;3.76;196.76;-738.76;-1254.77;-703.66"/>
+        </transition>
+    </state>
+    <state id="DATE_START">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1486.68;-50.67;1419.37;-98.81;157;100" geometry="1486.68;-50.67;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isDateEND" target="DATE_END">
+            <qt:editorinfo endTargetFactors="13;53.28"/>
+        </transition>
+    </state>
+    <state id="DATE_END">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1753.85;-50.67;1686.54;-98.81;157;100" geometry="1753.85;-50.67;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="43.55;12.19" localGeometry="-18.61;-369.55;-1203.13;-369.55"/>
+        </transition>
+    </state>
+    <state id="SINCE_LAST">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1221.13;75.14;1153.82;27;157;100" geometry="1221.13;75.14;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isNumber" target="NUMBER">
+            <qt:editorinfo endTargetFactors="14.94;47.48"/>
+        </transition>
+    </state>
+    <state id="EXT_LIST">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1221.13;683.43;1153.82;665.01;125.38;100.28" geometry="1221.13;683.43;-67.31;-18.42;125.38;100.28"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="36.98;88.83" localGeometry="221.06;-0.07;221.06;208.60;-646.52;208.60"/>
+        </transition>
+    </state>
+    <state id="TYPE_LIST">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1221.13;836.33;1172.32;788.19;120;100" geometry="1221.13;836.33;-48.81;-48.14;120;100"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="62.70;87.18" localGeometry="160.33;0;160.33;64.51;-631.46;64.51"/>
+        </transition>
+    </state>
+    <state id="SIZE_BETWEEN">
+        <qt:editorinfo stateColor="#a2d700" scenegeometry="1205.32;603.47;1138.01;555.33;157;100" geometry="1205.32;603.47;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isNumberStart" target="NUMBER_START">
+            <qt:editorinfo endTargetFactors="13.63;53.56"/>
+        </transition>
+    </state>
+    <state id="NUMBER_START">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1421.53;603.47;1354.22;555.33;157;100" geometry="1421.53;603.47;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isUnitStart" target="UNIT_START">
+            <qt:editorinfo endTargetFactors="17.78;50.99"/>
+        </transition>
+    </state>
+    <state id="UNIT_START">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1626.72;603.47;1572.91;555.33;130;100" geometry="1626.72;603.47;-53.81;-48.14;130;100"/>
+        <transition type="external" event="isNumberEnd" target="NUMBER_END">
+            <qt:editorinfo endTargetFactors="7.51;50.48"/>
+        </transition>
+    </state>
+    <state id="NUMBER_END">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="1816.52;603.47;1749.21;555.33;157;100" geometry="1816.52;603.47;-67.31;-48.14;157;100"/>
+        <transition type="external" event="isUnitEnd" target="UNIT_END">
+            <qt:editorinfo endTargetFactors="9.16;49.70" movePoint="17.93;2.11"/>
+        </transition>
+    </state>
+    <state id="UNIT_END">
+        <qt:editorinfo stateColor="#f7e967" scenegeometry="2036.65;603.47;1982.84;555.33;130;100" geometry="2036.65;603.47;-53.81;-48.14;130;100"/>
+        <transition type="external" event="isNextOption" target="OPTION">
+            <qt:editorinfo endTargetFactors="22.75;91.03" localGeometry="0;344.89;-1510.99;344.89"/>
+        </transition>
     </state>
 </scxml>
