@@ -18,17 +18,20 @@ Action* SearchParser::parse()
 
     QList<Token*> tokens = this->getTokens();
 
-    searchfsm *m_searchfsm = new searchfsm();
+    Searchfsm *m_searchfsm = new Searchfsm();
 
-    m_searchfsm->init();
+    //Utiliser les tokens
+    //nextToken
 
-    m_searchfsm->start();
 
+    //Connect
     m_searchfsm->connectToState("OPTION", [this,m_searchfsm]() {
 
         m_searchfsm->submitEvent("isLastModified");
     });
 
+    m_searchfsm->init();
+    m_searchfsm->start();
 
 
     return new SearchAction(*searchOption);
