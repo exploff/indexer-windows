@@ -13,6 +13,13 @@ public:
     virtual Action* parse() override;
 private:
     SizeSpec parseSizeString(const QString& sizeString);
+    Token* nextToken();
+    Token* currentToken();
+    QString getTransitionName(QString value);
+    int currentTokenI = 0;
+
+    Searchfsm *m_searchfsm;
+
 };
 
 #endif // SEARCHPARSER_H

@@ -18,7 +18,9 @@ Normalizer::Normalizer(){
     _dictionary[Enum::TokenTypes::COMMANDE] << "INDEXER" << "GET" << "ADD" << "PUSH" << "CLEAR" << "SEARCH";
     _dictionary[Enum::TokenTypes::COLON] << ":";
     _dictionary[Enum::TokenTypes::COMMA] << ",";
-    _dictionary[Enum::TokenTypes::OPTIONS] << "LAST_MODIFIED" << "CREATED" << "MAX_SIZE" << "MIN_SIZE" << "SIZE" << "EXT" << "TYPE";
+    _dictionary[Enum::TokenTypes::OPTION_MIN_SIZE] << "MIN_SIZE";
+    _dictionary[Enum::TokenTypes::OPTION_MAX_SIZE] << "MAX_SIZE";
+    _dictionary[Enum::TokenTypes::OPTIONS] << "LAST_MODIFIED" << "CREATED" << "SIZE" << "EXT" << "TYPE";
     _dictionary[Enum::TokenTypes::OPERATOR] << "BETWEEN" << "OR" << "AND" << "SINCE" << "LAST" << "AGO";
     _dictionary[Enum::TokenTypes::TIME_UNIT] << "MINUTES" << "DAYS" << "HOURS" << "MONTHS" << "YEAR";
     _dictionary[Enum::TokenTypes::TYPE] << "image" << "text" << "exec";
@@ -92,7 +94,7 @@ Enum::TokenTypes Normalizer::getType(QString token) {
 
     re.setPattern("\\d+[KMG]+");
     if (re.match(token).hasMatch()) {
-        return Enum::TokenTypes::SIZE;
+        return Enum::TokenTypes::SIZE_UNIT;
     }
 
     re.setPattern("\\d+\\.\\d+");

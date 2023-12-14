@@ -7,6 +7,8 @@
 
 #include "searchfsm.h"
 
+#include <QApplication>
+
 SearchParser::SearchParser()
 {
 
@@ -18,23 +20,85 @@ Action* SearchParser::parse()
 
     QList<Token*> tokens = this->getTokens();
 
-    Searchfsm *m_searchfsm = new Searchfsm();
+    this->m_searchfsm = new Searchfsm();
+
 
     //Utiliser les tokens
     //nextToken
 
+    this->m_searchfsm->connectToState("OPTION_MIN_SIZE", [this, searchOption]() {
+        qDebug() << "1 > MIN_SIZE";
 
-    //Connect
-    m_searchfsm->connectToState("OPTION", [this,m_searchfsm]() {
-
-        m_searchfsm->submitEvent("isLastModified");
     });
 
-    m_searchfsm->init();
-    m_searchfsm->start();
+    this->m_searchfsm->connectToState("OPTION_MAX_SIZE", [this, searchOption]() {
+        qDebug() << "1 > MAX_SIZE";
+    });
+
+    this->m_searchfsm->connectToState("SIZE_UNIT", [this]() {
+        qDebug() << "2 > SIZE_UNIT";
+        qDebug() << "AJOUT DANS LA SEARCH OPTION";
+
+        // On est au bout on retourne a l'état search option
+        this->m_searchfsm->submitEvent("is_next_option");
+        QApplication::processEvents();
+    });
 
 
+    this->m_searchfsm->init();
+    this->m_searchfsm->start();
+
+
+
+    for (Token* token : tokens) {
+        qDebug() << "Traitement token " << token->value();
+        QString transitionName = this->getTransitionName(token->typeString());
+        qDebug() << "Transition to " << transitionName;
+        this->m_searchfsm->submitEvent(transitionName);
+        QApplication::processEvents();
+
+    }
+
+    //CA FONCTIONNE FAUT CONTINUER LE MIN_SIZE et MAX_SIZE et attribuer la valeur au searchoption, faut juste enregistrer une variable tempon
+    //quand on est dans l'état précédent min_size ça veut dire que dans le state unit_size on traite un min_size etc..
+
+    /*
+    qDebug() << "Traitement current token : " << token->value();
+    if (token->type() == Enum::TokenTypes::OPTIONS) {
+        QString transitionName = this->getTransitionName(token->typeString());
+        qDebug() << "Transition" << transitionName;
+        this->m_searchfsm->submitEvent(transitionName);
+    }*/
+
+    /*
+
+    while (this->currentTokenI < tokens.size()) {
+
+        Token* token = this->nextToken();
+        qDebug() << "Traitement current token : " << token->value();
+
+        if (token->type() == Enum::TokenTypes::OPTIONS) {
+            QString transitionName = this->getTransitionName(token->value());
+            qDebug() << "Transition" << transitionName;
+            this->m_searchfsm->submitEvent(transitionName);
+        }
+        QApplication::processEvents();
+    }
+*/
     return new SearchAction(*searchOption);
+}
+
+Token* SearchParser::nextToken() {
+    this->currentTokenI++;
+    return this->getTokens()[this->currentTokenI];
+}
+
+Token* SearchParser::currentToken() {
+    return this->getTokens()[this->currentTokenI];
+}
+
+QString SearchParser::getTransitionName(QString value) {
+    return "is_" + value.toLower();
 }
 
 SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
