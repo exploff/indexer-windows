@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += network
 QT       += sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -43,7 +44,7 @@ SOURCES += \
     commandhandler\normalizer\normalizer.cpp \
     commandhandler\parserfactory\parser\indexerparser.cpp \
     commandhandler\parserfactory\parserfactory.cpp \
-    server.cpp
+    tcpserver.cpp
 
 RESOURCES += \
     dataset.qrc \
@@ -80,7 +81,7 @@ HEADERS += \
     commandhandler\parserfactory\parser\parser.h \
     commandhandler\parserfactory\parserfactory.h \
     indexerrunner/indexerrunner.h \
-    server.h
+    tcpserver.h
 
 CONFIG += lrelease
 CONFIG += embed_translations

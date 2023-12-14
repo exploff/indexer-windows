@@ -1,5 +1,4 @@
 #include "commandhandler/normalizer/normalizer.h"
-#include "server.h"
 
 #include "common/action/action.h"
 #include "common/action/getaction.h"
@@ -9,6 +8,7 @@
 #include "common/action/indexeraction.h"
 #include "common/debug/debug.h"
 #include "common/constants.h"
+#include "tcpserver.h"
 
 #include <iostream>
 #include <string>
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     initDebug();
     logAppInfo();
 
+/*
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString dbFileName = Constants::DB_FILENAME;
 
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
     commandHandler.processCommand("PUSH SKIPPED_FILTERS /home/documents \"C:/Documents/text.txt\" DONE");
 
     qDebug() << "\n\n";
-
+*/
     /*commandHandler.processCommand("SEARCH \"testme please\" \
         LAST_MODIFIED:BETWEEN 2 days and 3 days \
         LAST_MODIFIED: 12/12/2020 \
@@ -79,8 +80,8 @@ int main(int argc, char *argv[])
         TYPE:image OR text  \
         DONE");
 */
-
-commandHandler.processCommand("SEARCH \"testme please\" \
+/*
+    commandHandler.processCommand("SEARCH \"testme please\" \
         LAST_MODIFIED: 12/12/2020 \
         MAX_SIZE:10M \
         MIN_SIZE:10G \
@@ -94,5 +95,9 @@ commandHandler.processCommand("SEARCH \"testme please\" \
     qDebug() << "Nombre de résultats : " << results.size();
 
     dbAdapter.close();
+*/
+
+    TCPServer tcpserver;
+    return a.exec();
 }
 
