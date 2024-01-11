@@ -22,70 +22,84 @@ Action* SearchParser::parse()
 
     this->m_searchfsm = new Searchfsm();
 
+    bool setMinSize = false;
+    bool setMaxSize = false;
+    bool setSize = false;
 
     //Utiliser les tokens
     //nextToken
 
-    this->m_searchfsm->connectToState("OPTION_MIN_SIZE", [this, searchOption]() {
-        qDebug() << "1 > MIN_SIZE";
-
+    this->m_searchfsm->connectToState("SIZE_AND", [this, searchOption, &setSize]() {
+        qDebug() << "1 > TRAITEMENT DE SIZE AND";
+        setSize = true;
     });
 
-    this->m_searchfsm->connectToState("OPTION_MAX_SIZE", [this, searchOption]() {
-        qDebug() << "1 > MAX_SIZE";
+    this->m_searchfsm->connectToState("OPTION_SIZE", [this, searchOption, &setSize]() {
+        qDebug() << "1 > SIZE";
+        setSize = true;
     });
 
-    this->m_searchfsm->connectToState("SIZE_UNIT", [this]() {
-        qDebug() << "2 > SIZE_UNIT";
-        qDebug() << "AJOUT DANS LA SEARCH OPTION";
 
-        // On est au bout on retourne a l'état search option
-        this->m_searchfsm->submitEvent("is_next_option");
-        QApplication::processEvents();
+    this->m_searchfsm->connectToState("OPTION_MIN_SIZE", [this, searchOption, &setMinSize]() {
+        setMinSize = true;
     });
 
+    this->m_searchfsm->connectToState("OPTION_MAX_SIZE", [this, searchOption, &setMaxSize]() {
+        setMaxSize = true;
+    });
+
+    this->m_searchfsm->connectToState("SIZE_UNIT", [this, searchOption, &setMaxSize, &setMinSize, &setSize]() {
+        SizeSpec sizeSpec = this->parseSizeString(this->currentToken()->value());
+        if (setMinSize) {
+            searchOption->setMinSize(sizeSpec);
+            setMinSize = false;
+        } else if(setMaxSize) {
+            searchOption->setMaxSize(sizeSpec);
+            setMaxSize = false;
+        } else if (setSize) {
+            searchOption->addSize(sizeSpec);
+            setSize = false;
+        }
+    });
 
     this->m_searchfsm->init();
     this->m_searchfsm->start();
 
-
-
     for (Token* token : tokens) {
+
         qDebug() << "Traitement token " << token->value();
         QString transitionName = this->getTransitionName(token->typeString());
         qDebug() << "Transition to " << transitionName;
-        this->m_searchfsm->submitEvent(transitionName);
-        QApplication::processEvents();
 
-    }
-
-    //CA FONCTIONNE FAUT CONTINUER LE MIN_SIZE et MAX_SIZE et attribuer la valeur au searchoption, faut juste enregistrer une variable tempon
-    //quand on est dans l'état précédent min_size ça veut dire que dans le state unit_size on traite un min_size etc..
-
-    /*
-    qDebug() << "Traitement current token : " << token->value();
-    if (token->type() == Enum::TokenTypes::OPTIONS) {
-        QString transitionName = this->getTransitionName(token->typeString());
-        qDebug() << "Transition" << transitionName;
-        this->m_searchfsm->submitEvent(transitionName);
-    }*/
-
-    /*
-
-    while (this->currentTokenI < tokens.size()) {
-
-        Token* token = this->nextToken();
-        qDebug() << "Traitement current token : " << token->value();
-
-        if (token->type() == Enum::TokenTypes::OPTIONS) {
-            QString transitionName = this->getTransitionName(token->value());
-            qDebug() << "Transition" << transitionName;
-            this->m_searchfsm->submitEvent(transitionName);
+        if (sendNextOption(token)) {
+            this->m_searchfsm->submitEvent("is_next_option");
+            QApplication::processEvents();
         }
+
+
+
+        this->m_searchfsm->submitEvent(transitionName);
         QApplication::processEvents();
+
+        this->currentTokenI++;
+
     }
-*/
+
+    qDebug() << "Value Max Size set : " << searchOption->getMaxSize().getSize() << searchOption->getMaxSize().getType();
+    qDebug() << "Value Min Size set : " << searchOption->getMinSize().getSize() << searchOption->getMinSize().getType();
+
+    for (SizeSpec sizeSpec : searchOption->getSizes()) {
+        qDebug() << "Value Size : " << sizeSpec.getSize() << sizeSpec.getType();
+    }
+
     return new SearchAction(*searchOption);
+}
+
+bool SearchParser::sendNextOption(Token * token) {
+    return (token->type() == Enum::TokenTypes::OPTION_SIZE ||
+        token->type() == Enum::TokenTypes::OPTION_MIN_SIZE ||
+        token->type() == Enum::TokenTypes::OPTION_MAX_SIZE);
+
 }
 
 Token* SearchParser::nextToken() {
@@ -138,14 +152,17 @@ SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
 
 
 
-    //    //    qDebug() << "Value: " << token->value() << " => " << token->typeString();
+    qDebug() << "Value: " << sizeString;
 
     if (sizeString.isEmpty()) {
         //TODO: exception ?
         return SizeSpec();
     }
 
+    qDebug() << "Conversion de : " << sizeString.left(sizeString.length() - 1);
     double sizeValue = sizeString.left(sizeString.length() - 1).toDouble();
+    qDebug() << "Valeur converti : " << sizeValue;
+
     QString sizeType = sizeString.right(1).toUpper();
 
     // Vérifier le type et ajuster la valeur
@@ -156,6 +173,7 @@ SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
     } else if (sizeType == "G") {
         sizeValue *= 1024 * 1024 * 1024;  // gigaoctets
     }
+
 
     return SizeSpec(sizeValue, sizeType);
 }

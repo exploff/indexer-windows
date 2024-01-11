@@ -12,6 +12,15 @@ SearchAction::~SearchAction() {
 }
 
 void SearchAction::run() {
+
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbFileName = Constants::DB_FILENAME;
+
+    DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+
+    dbAdapter.open();
+
+    dbAdapter.close();
     qDebug() << __FUNCTION__ << __LINE__;
 }
 

@@ -35,7 +35,8 @@ TCPServer::TCPServer(QObject *parent) : QObject(parent)
 
         qDebug() << "Server started !";
 
-commandHandler.processCommand("SEARCH \"testme please\" \
+        commandHandler.processCommand("SEARCH \"testme please\" \
+        SIZE:30K \
         MIN_SIZE:10M \
         MAX_SIZE:45G \
         DONE");

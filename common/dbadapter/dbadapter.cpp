@@ -272,8 +272,5 @@ QList<QString> DBAdapter::getAction(QString table) {
     }
     query.finish();
 
-    for (QString string  : resultList) {
-        qDebug() << "Table: " << table << " Value:" << string;
-    }
     return resultList;
 }

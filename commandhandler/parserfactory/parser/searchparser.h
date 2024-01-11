@@ -15,6 +15,7 @@ private:
     SizeSpec parseSizeString(const QString& sizeString);
     Token* nextToken();
     Token* currentToken();
+    bool sendNextOption(Token * token);
     QString getTransitionName(QString value);
     int currentTokenI = 0;
 

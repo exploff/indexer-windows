@@ -26,6 +26,8 @@ class Enum : public QObject
         enum class TokenTypes {
             OPTION_MIN_SIZE,
             OPTION_MAX_SIZE,
+            SIZE_BETWEEN,
+            OPTION_SIZE,
             COMMANDE,
             DATE,
             SIZE,

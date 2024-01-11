@@ -20,8 +20,11 @@ Normalizer::Normalizer(){
     _dictionary[Enum::TokenTypes::COMMA] << ",";
     _dictionary[Enum::TokenTypes::OPTION_MIN_SIZE] << "MIN_SIZE";
     _dictionary[Enum::TokenTypes::OPTION_MAX_SIZE] << "MAX_SIZE";
+    _dictionary[Enum::TokenTypes::OPTION_SIZE] << "SIZE";
+    _dictionary[Enum::TokenTypes::SIZE_BETWEEN] << "BETWEEN";
+
     _dictionary[Enum::TokenTypes::OPTIONS] << "LAST_MODIFIED" << "CREATED" << "SIZE" << "EXT" << "TYPE";
-    _dictionary[Enum::TokenTypes::OPERATOR] << "BETWEEN" << "OR" << "AND" << "SINCE" << "LAST" << "AGO";
+    _dictionary[Enum::TokenTypes::OPERATOR] << "OR" << "AND" << "SINCE" << "LAST" << "AGO";
     _dictionary[Enum::TokenTypes::TIME_UNIT] << "MINUTES" << "DAYS" << "HOURS" << "MONTHS" << "YEAR";
     _dictionary[Enum::TokenTypes::TYPE] << "image" << "text" << "exec";
 
