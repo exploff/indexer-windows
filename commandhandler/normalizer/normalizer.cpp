@@ -21,12 +21,14 @@ Normalizer::Normalizer(){
     _dictionary[Enum::TokenTypes::OPTION_MIN_SIZE] << "MIN_SIZE";
     _dictionary[Enum::TokenTypes::OPTION_MAX_SIZE] << "MAX_SIZE";
     _dictionary[Enum::TokenTypes::OPTION_SIZE] << "SIZE";
-    _dictionary[Enum::TokenTypes::SIZE_BETWEEN] << "BETWEEN";
-
-    _dictionary[Enum::TokenTypes::OPTIONS] << "LAST_MODIFIED" << "CREATED" << "SIZE" << "EXT" << "TYPE";
+    _dictionary[Enum::TokenTypes::OPTION_EXT] << "EXT";
+    _dictionary[Enum::TokenTypes::OPTION_TYPE] << "TYPE";
+    _dictionary[Enum::TokenTypes::OPTION_CREATED] << "CREATED";
+    _dictionary[Enum::TokenTypes::OPTION_LAST_MODIFIED] << "LAST_MODIFIED";
+    _dictionary[Enum::TokenTypes::BETWEEN] << "BETWEEN";
     _dictionary[Enum::TokenTypes::OPERATOR] << "OR" << "AND" << "SINCE" << "LAST" << "AGO";
     _dictionary[Enum::TokenTypes::TIME_UNIT] << "MINUTES" << "DAYS" << "HOURS" << "MONTHS" << "YEAR";
-    _dictionary[Enum::TokenTypes::TYPE] << "image" << "text" << "exec";
+    _dictionary[Enum::TokenTypes::TYPE] << "IMAGE" << "TEXT" << "EXEC";
 
 }
 
@@ -135,7 +137,7 @@ bool Normalizer::isExtension(QString token) {
         //Get last token options and check if is OPTIONS EXT
         while (i >= 0) {
             Token* t = _tokens[i];
-            if (t->type() == Enum::TokenTypes::OPTIONS) {
+            if (t->type() == Enum::TokenTypes::OPTION_EXT) {
                 return t->value() == "EXT";
             }
             i = i - 1;

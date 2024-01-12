@@ -1,20 +1,20 @@
 #include "searchoption.h"
 
-SearchOption::SearchOption(): _sizes(new QList<SizeSpec>), _extensions(new QList<QString>), _types(new QList<QString>)
+SearchOption::SearchOption(): _sizes(new QList<SizeSpec>), _extensions(new QSet<QString>), _types(new QSet<QString>)
 {
     this->_lastModifiedDate = DateSpec();
     this->_createdDate = DateSpec();
     this->_maxSize = SizeSpec();
     this->_minSize = SizeSpec();
 }
-
+/*
 SearchOption::~SearchOption()
 {
     delete this->_sizes;
     delete this->_extensions;
     delete this->_types;
 }
-
+*/
 void SearchOption::setValue(QString value)
 {
     this->_value = value;
@@ -25,6 +25,9 @@ QString SearchOption::getValue()
     return this->_value;
 }
 
+bool SearchOption::hasValue() {
+    return !this->_value.isEmpty();
+}
 
 void SearchOption::setLastModifiedDate(DateSpec lastModifiedDate)
 {
@@ -108,11 +111,11 @@ bool SearchOption::hasSizes()
 
 void SearchOption::addExtension(QString extension)
 {
-    this->_extensions->append(extension);
+    this->_extensions->insert(extension);
     this->_hasExtensions = true;
 }
 
-QList<QString> SearchOption::getExtensions()
+QSet<QString> SearchOption::getExtensions()
 {
     return *this->_extensions;
 }
@@ -124,11 +127,11 @@ bool SearchOption::hasExtensions()
 
 void SearchOption::addType(QString type)
 {
-    this->_types->append(type);
+    this->_types->insert(type);
     this->_hasTypes = true;
 }
 
-QList<QString> SearchOption::getTypes()
+QSet<QString> SearchOption::getTypes()
 {
     return *this->_types;
 }

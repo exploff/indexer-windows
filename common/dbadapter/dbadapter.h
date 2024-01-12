@@ -5,6 +5,7 @@
 #include <QList>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include "common/searchoption.h"
 
 class DBAdapter
 {
@@ -23,7 +24,13 @@ class DBAdapter
         QList<FileInfo> getAll();
         void addAction(QString table,QList<QString> folderOrTypes);
         QList<QString> getAction(QString table);
+        QList<FileInfo> searchAction(SearchOption searchOption);
     private:
+        QString buildSizeCondition(const QString& condition, const QString& size, bool& isFirstCondition);
+        QString buildWhereCondition(const QString& condition, const QString& value, bool& isFirstCondition);
+        QString buildExtCondition(const QString& exts, bool& isFirstCondition);
+        QString buildDateCondition(const QString& field, const QString& condition, const QString& date, bool& isFirstCondition);
+        QString buildNameCondition(const QString& name, bool& isFirstCondition);
         QSqlDatabase db;
         QSqlQuery * query;
 };

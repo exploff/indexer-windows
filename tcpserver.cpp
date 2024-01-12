@@ -35,13 +35,31 @@ TCPServer::TCPServer(QObject *parent) : QObject(parent)
 
         qDebug() << "Server started !";
 
+        //Pour le type il manque l'implémentation dbadapter car nous ne pouvons pas déterminer le type général d'un fichier en QT
+        //Utiliser libmagic pour déterminer le type
+
+
+        commandHandler.processCommand("SEARCH \"source\" \
+        LAST_MODIFIED: BETWEEN 20/02/2022 AND 28/02/2022 \
+        SIZE:BETWEEN 500K AND 1M \
+        MIN_SIZE:750K \
+        MAX_SIZE:1G \
+        EXT:txt,doc,xlsx \
+        TYPE:image OR text OR exec\
+        ");
+
+        /*
+
         commandHandler.processCommand("SEARCH \"testme please\" \
-        SIZE:30K \
-        MIN_SIZE:10M \
-        MAX_SIZE:45G \
-        DONE");
+        LAST_MODIFIED: 26/02/2022 \
+        SIZE:BETWEEN 500K AND 1M \
+        MIN_SIZE:750K \
+        MAX_SIZE:1G \
+        EXT:txt,doc,xlsx \
+        TYPE:image OR text OR exec\
+        ");
 
-
+*/
     }
 }
 

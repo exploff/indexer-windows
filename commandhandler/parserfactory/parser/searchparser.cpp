@@ -25,9 +25,14 @@ Action* SearchParser::parse()
     bool setMinSize = false;
     bool setMaxSize = false;
     bool setSize = false;
+    bool setCreatedDate = false;
+    bool setModifiedDate = false;
+    bool isDateBetween = false;
 
     //Utiliser les tokens
     //nextToken
+
+
 
     this->m_searchfsm->connectToState("SIZE_AND", [this, searchOption, &setSize]() {
         qDebug() << "1 > TRAITEMENT DE SIZE AND";
@@ -62,6 +67,81 @@ Action* SearchParser::parse()
         }
     });
 
+    this->m_searchfsm->connectToState("OPTION_EXT", [this, searchOption]() {
+        qDebug() << "OPTION EXT";
+    });
+
+    this->m_searchfsm->connectToState("OPTION_TYPE", [this, searchOption]() {
+        qDebug() << "OPTION TYPE";
+    });
+
+    this->m_searchfsm->connectToState("STRING", [this, searchOption]() {
+        Token* token = this->currentToken();
+        if (token->type() == Enum::TokenTypes::STRING) {
+            searchOption->setValue(token->value());
+        }
+    });
+
+    this->m_searchfsm->connectToState("EXTENSION", [this, searchOption]() {
+        qDebug() << "AJOUT D EXTENSION";
+        Token* token = this->currentToken();
+        if (token->type() == Enum::TokenTypes::EXTENSION) {
+            searchOption->addExtension(token->value());
+        }
+    });
+
+
+    this->m_searchfsm->connectToState("TYPE", [this, searchOption]() {
+        qDebug() << "AJOUT TYPE";
+        Token* token = this->currentToken();
+        if (token->type() == Enum::TokenTypes::TYPE) {
+            searchOption->addType(token->value());
+        }
+    });
+
+    this->m_searchfsm->connectToState("OPTION_CREATED", [this, searchOption, &setCreatedDate, &setModifiedDate]() {
+        qDebug() << "AJOUT DATE CREATION";
+        setModifiedDate = false;
+        setCreatedDate = true;
+    });
+    this->m_searchfsm->connectToState("OPTION_LAST_MODIFIED", [this, searchOption, &setCreatedDate, &setModifiedDate]() {
+        qDebug() << "AJOUT DATE CREATION";
+        setCreatedDate = false;
+        setModifiedDate = true;
+    });
+    this->m_searchfsm->connectToState("DATE", [this, searchOption, &isDateBetween, &setCreatedDate, &setModifiedDate]() {
+        qDebug() << "AJOUT DATE";
+        Token* token = this->currentToken();
+        if (token->type() == Enum::TokenTypes::DATE) {
+            QDate date = stringToDate(token->value());
+
+            qDebug() << "CONVERSION DATE  : " << token->value();
+
+
+            if (setCreatedDate) {
+                DateSpec oldDateSpec = searchOption->getCreatedDate();
+                oldDateSpec.addDate(date);
+                searchOption->setCreatedDate(oldDateSpec);
+
+                setCreatedDate = isDateBetween ? oldDateSpec.getDates()->length() < 2 : false;
+
+            } else if (setModifiedDate) {
+                DateSpec oldDateSpec = searchOption->getLastModifiedDate();
+                oldDateSpec.addDate(date);
+                searchOption->setLastModifiedDate(oldDateSpec);
+
+                setModifiedDate = isDateBetween ? oldDateSpec.getDates()->length() < 2 : false;
+            }
+        }
+    });
+
+    this->m_searchfsm->connectToState("BETWEEN", [this, searchOption, &isDateBetween, &setCreatedDate, &setModifiedDate]() {
+        if (setCreatedDate || setModifiedDate) {
+            isDateBetween = true;
+        }
+    });
+
+
     this->m_searchfsm->init();
     this->m_searchfsm->start();
 
@@ -69,15 +149,13 @@ Action* SearchParser::parse()
 
         qDebug() << "Traitement token " << token->value();
         QString transitionName = this->getTransitionName(token->typeString());
-        qDebug() << "Transition to " << transitionName;
 
         if (sendNextOption(token)) {
+            qDebug() << "Transition to " << "is_next_option";
             this->m_searchfsm->submitEvent("is_next_option");
             QApplication::processEvents();
         }
-
-
-
+        qDebug() << "Transition to " << transitionName;
         this->m_searchfsm->submitEvent(transitionName);
         QApplication::processEvents();
 
@@ -92,13 +170,25 @@ Action* SearchParser::parse()
         qDebug() << "Value Size : " << sizeSpec.getSize() << sizeSpec.getType();
     }
 
+    for (QString ext : searchOption->getExtensions()) {
+        qDebug() << "Value ext : " << ext;
+    }
+
+    for (QString type : searchOption->getTypes()) {
+        qDebug() << "Value type : " << type;
+    }
+
     return new SearchAction(*searchOption);
 }
 
 bool SearchParser::sendNextOption(Token * token) {
     return (token->type() == Enum::TokenTypes::OPTION_SIZE ||
         token->type() == Enum::TokenTypes::OPTION_MIN_SIZE ||
-        token->type() == Enum::TokenTypes::OPTION_MAX_SIZE);
+        token->type() == Enum::TokenTypes::OPTION_MAX_SIZE ||
+        token->type() == Enum::TokenTypes::OPTION_EXT ||
+        token->type() == Enum::TokenTypes::OPTION_TYPE ||
+        token->type() == Enum::TokenTypes::OPTION_CREATED ||
+        token->type() == Enum::TokenTypes::OPTION_LAST_MODIFIED);
 
 }
 
@@ -116,41 +206,6 @@ QString SearchParser::getTransitionName(QString value) {
 }
 
 SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
-
-    //    if (tokens[1]->type() == Enum::TokenTypes::STRING) {
-    //        searchOption->setValue(tokens[1]->value());
-    //    } else {
-    //        //Todo : Exception
-    //    }
-
-    //    for (int i = 0; i < tokens.size(); ++i) {
-    //        const Token* currentToken = tokens.at(i);
-
-    //        if (currentToken->type() == Enum::TokenTypes::OPTIONS &&
-    //               (currentToken->value() == "MAX_SIZE" || currentToken->value() == "MIN_SIZE")) {
-    //            // La valeur suivante est un COLON
-    //            const Token* colonToken = tokens.at(++i);
-    //            if (colonToken && colonToken->type() == Enum::TokenTypes::COLON) {
-    //                const Token* sizeToken = tokens.at(++i);
-    //                if (sizeToken && sizeToken->type() == Enum::TokenTypes::SIZE) {
-    //                    SizeSpec sizeSpec = this->parseSizeString(sizeToken->value());
-    //                    if (currentToken->value() == "MAX_SIZE") {
-    //                        searchOption->setMaxSize(sizeSpec);
-    //                    } else if (currentToken->value() == "MIN_SIZE") {
-    //                        searchOption->setMinSize(sizeSpec);
-    //                    }
-    //                }
-    //            }
-    //        } else if (currentToken->type() == Enum::TokenTypes::OPTIONS &&
-    //                   currentToken->value() == "SIZE") {
-
-
-    //        }
-
-
-    //    }
-
-
 
     qDebug() << "Value: " << sizeString;
 
@@ -176,4 +231,25 @@ SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
 
 
     return SizeSpec(sizeValue, sizeType);
+}
+
+QDate SearchParser::stringToDate(QString dateString) {
+    QStringList formats = {"MM/yyyy", "dd/MM/yyyy", "yyyy", "yy"};
+
+    // Essayer chaque format jusqu'à ce que la conversion réussisse
+    QDate date;
+    for (const QString& format : formats) {
+        date = QDate::fromString(dateString, format);
+        if (date.isValid()) {
+            break;  // Sortir de la boucle si la conversion réussit
+        }
+    }
+
+    // Vérification de la validité de la conversion
+    if (!date.isValid()) {
+        qDebug() << "La conversion de la chaîne en QDate a échoué.";
+        // Vous pouvez gérer l'erreur ici selon vos besoins.
+    }
+
+    return date;
 }

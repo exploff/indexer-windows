@@ -8,6 +8,8 @@
 #include <QSqlError>
 #include <memory>
 
+#include "common/searchoption.h"
+
 DBAdapter::DBAdapter()
 {
 
@@ -274,3 +276,159 @@ QList<QString> DBAdapter::getAction(QString table) {
 
     return resultList;
 }
+
+//Prepare execute recommencer pour les failles
+
+QList<FileInfo> DBAdapter::searchAction(SearchOption searchOption)
+{
+    QList<FileInfo> results;
+
+    QString sqlSelect = "SELECT * FROM files";
+
+    bool isFirstCondition = true;
+
+    if (searchOption.hasValue()) {
+        sqlSelect += buildNameCondition(searchOption.getValue(), isFirstCondition);
+    }
+
+
+    if (searchOption.hasMinSize()) {
+        sqlSelect += buildSizeCondition("> ", QString::number(searchOption.getMinSize().getSize()), isFirstCondition);
+    }
+    if (searchOption.hasMaxSize()) {
+        sqlSelect += buildSizeCondition("< ", QString::number(searchOption.getMaxSize().getSize()), isFirstCondition);
+    }
+
+    if (searchOption.hasSizes()) {
+        QList<SizeSpec> sizes = searchOption.getSizes();
+        if (sizes.length() == 1) {
+            sqlSelect += buildSizeCondition("= ", QString::number(sizes[0].getSize()), isFirstCondition);
+        } else {
+            sqlSelect += buildSizeCondition("> ", QString::number(sizes[0].getSize()), isFirstCondition);
+            sqlSelect += buildSizeCondition("< ", QString::number(sizes[1].getSize()), isFirstCondition);
+        }
+    }
+
+    if (searchOption.hasExtensions()) {
+        QList<QString> extensions = searchOption.getExtensions().values();
+        QString exts = extensions.join("', '");
+        sqlSelect += buildExtCondition(exts, isFirstCondition);
+    }
+
+    if (searchOption.hasTypes()) {
+        //TODO
+    }
+
+    if (searchOption.hasCreatedDate()) {
+        QString format = "yyyy-MM-dd";
+        DateSpec dateSpec = searchOption.getCreatedDate();
+        if (dateSpec.isBetween()) {
+            QDate date1 = dateSpec.getDates()->at(0);
+            QDate date2 = dateSpec.getDates()->at(1);
+            sqlSelect += buildDateCondition("createdDate", "> ", "'" + date1.toString(format) + "'", isFirstCondition);
+            sqlSelect += buildDateCondition("createdDate", "< ", "'" + date2.toString(format) + "'", isFirstCondition);
+        } else {
+            QString date = "'" + dateSpec.getDates()->first().toString(format) + "'";
+            sqlSelect += buildDateCondition("createdDate", "LIKE ", date, isFirstCondition);
+        }
+    }
+
+    if (searchOption.hasLastModifiedDate()) {
+        QString format = "yyyy-MM-dd";
+        DateSpec dateSpec = searchOption.getLastModifiedDate();
+        if (dateSpec.isBetween()) {
+            QDate date1 = dateSpec.getDates()->at(0);
+            QDate date2 = dateSpec.getDates()->at(1);
+            sqlSelect += buildDateCondition("modifiedDate", "> ", "'" + date1.toString(format) + "'", isFirstCondition);
+            sqlSelect += buildDateCondition("modifiedDate", "< ", "'" + date2.toString(format) + "'", isFirstCondition);
+        } else {
+            QString date = "'" + dateSpec.getDates()->first().toString(format) + "'";
+            sqlSelect += buildDateCondition("modifiedDate", "LIKE ", date, isFirstCondition);
+        }
+    }
+
+    qDebug() << "Requete SQL : " << sqlSelect;
+
+
+    QSqlQuery query;
+    query.exec(sqlSelect);
+    if (query.lastError().isValid()) {
+        qWarning() << "select data from table files" << sqlSelect << query.lastError().text();
+    }
+
+    while(query.next()) {
+        QString path = query.value("path").toString();
+        QString fileName = query.value("fileName").toString();
+        uint size = query.value("size").toUInt();
+        QString extension = query.value("extension").toString();
+
+        // Convertir la valeur de l'énumération en int puis en FileType
+        int typeValue = query.value("type").toInt();
+        Enum::FileType type = static_cast<Enum::FileType>(typeValue);
+
+        // Convertir la date en QDateTime et extraire la date
+        QDateTime modifiedDateTime = query.value("modifiedDate").toDateTime();
+        QDate modifiedDate = modifiedDateTime.date();
+
+        QDateTime createdDateTime = query.value("createdDate").toDateTime();
+        QDate createdDate = createdDateTime.date();
+
+        // Créer un objet FileInfo et l'ajouter à la liste des résultats
+        FileInfo fileInfo(path, fileName, size, extension, type, modifiedDate, createdDate);
+        results.append(fileInfo);
+    }
+    query.finish();
+
+    qDebug() << "Resultats : " << results.length();
+
+    return results;
+
+}
+
+QString DBAdapter::buildWhereCondition(const QString& condition, const QString& value, bool& isFirstCondition) {
+    QString result;
+    if (!isFirstCondition) {
+        result += " AND ";
+    } else {
+        result += " WHERE ";
+        isFirstCondition = false;
+    }
+    result += condition + value;
+    return result;
+}
+
+QString DBAdapter::buildSizeCondition(const QString& condition, const QString& size, bool& isFirstCondition) {
+    QString result;
+    if (!size.isEmpty()) {
+        result += buildWhereCondition("size " + condition, size, isFirstCondition);
+    }
+    return result;
+}
+
+
+QString DBAdapter::buildExtCondition(const QString& exts, bool& isFirstCondition) {
+    QString result;
+    if (!exts.isEmpty()) {
+        result += buildWhereCondition("extension IN ('", exts, isFirstCondition);
+        result += "')";
+    }
+    return result;
+}
+
+QString DBAdapter::buildNameCondition(const QString& name, bool& isFirstCondition) {
+    QString result;
+    if (!name.isEmpty()) {
+        result += buildWhereCondition("fileName LIKE '%", name, isFirstCondition);
+        result += "%'";
+    }
+    return result;
+}
+
+QString DBAdapter::buildDateCondition(const QString& field, const QString& condition, const QString& date, bool& isFirstCondition) {
+    QString result;
+    if (!date.isEmpty()) {
+        result += buildWhereCondition(field + " " + condition, date, isFirstCondition);
+    }
+    return result;
+}
+

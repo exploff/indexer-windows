@@ -1,17 +1,8 @@
 #include "datespec.h"
 
-DateSpec::DateSpec()
+DateSpec::DateSpec(): _dates(new QList<QDate>)
 {
 
-}
-DateSpec::DateSpec(QDate date): _date(date)
-{
-    this->_between = false;
-}
-
-DateSpec::DateSpec(QDate minDate, QDate maxDate): _minDate(minDate), _maxDate(maxDate)
-{
-    this->_between = true;
 }
 
 bool DateSpec::isBetween()
@@ -19,17 +10,14 @@ bool DateSpec::isBetween()
     return this->_between;
 }
 
-QDate DateSpec::getDate()
+QList<QDate>* DateSpec::getDates()
 {
-    return this->_date;
+    return this->_dates;
 }
 
-QDate DateSpec::getMinDate()
+void DateSpec::addDate(QDate date)
 {
-    return this->_minDate;
+    this->_dates->append(date);
+    this->_between = this->_dates->length() > 1;
 }
 
-QDate DateSpec::getMaxDate()
-{
-    return this->_maxDate;
-}

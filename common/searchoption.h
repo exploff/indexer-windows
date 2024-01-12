@@ -9,10 +9,11 @@ class SearchOption
 {
     public:
         SearchOption();
-        ~SearchOption();
+       // ~SearchOption();
 
         void setValue(QString value);
         QString getValue();
+        bool hasValue();
 
         void setLastModifiedDate(DateSpec lastModifiedDate);
         DateSpec getLastModifiedDate();
@@ -35,11 +36,11 @@ class SearchOption
         bool hasSizes();
 
         void addExtension(QString extension);
-        QList<QString> getExtensions();
+        QSet<QString> getExtensions();
         bool hasExtensions();
 
         void addType(QString type);
-        QList<QString> getTypes();
+        QSet<QString> getTypes();
         bool hasTypes();
 
     private:
@@ -50,8 +51,8 @@ class SearchOption
         SizeSpec _maxSize;
         SizeSpec _minSize;
         QList<SizeSpec> *_sizes;
-        QList<QString> *_extensions;
-        QList<QString> *_types;
+        QSet<QString> *_extensions;
+        QSet<QString> *_types;
 
         bool _hasLastModifiedDate = false;
         bool _hasCreatedDate = false;

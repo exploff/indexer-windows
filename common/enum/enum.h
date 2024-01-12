@@ -24,9 +24,13 @@ class Enum : public QObject
             RESULTS_AVAILABLE
         };
         enum class TokenTypes {
+            OPTION_CREATED,
+            OPTION_LAST_MODIFIED,
+            OPTION_EXT,
+            OPTION_TYPE,
             OPTION_MIN_SIZE,
             OPTION_MAX_SIZE,
-            SIZE_BETWEEN,
+            BETWEEN,
             OPTION_SIZE,
             COMMANDE,
             DATE,
