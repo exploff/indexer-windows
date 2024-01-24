@@ -22,6 +22,7 @@ SOURCES += \
     commandhandler/parserfactory/parser/searchparser.cpp \
     common/action/addaction.cpp \
     common/action/clearaction.cpp \
+    mainwindow.cpp \
     common/action/pushaction.cpp \
     common/action/searchaction.cpp \
     common/searchoption.cpp \
@@ -45,6 +46,8 @@ SOURCES += \
     commandhandler\normalizer\normalizer.cpp \
     commandhandler\parserfactory\parser\indexerparser.cpp \
     commandhandler\parserfactory\parserfactory.cpp \
+    receiver.cpp \
+    sender.cpp \
     tcpserver.cpp
 
 RESOURCES += \
@@ -52,6 +55,8 @@ RESOURCES += \
     dataset.qrc
 
 HEADERS += \
+    receiver.h \
+    sender.h \
     commandhandler/parserfactory/parser/addparser.h \
     commandhandler/parserfactory/parser/clearparser.h \
     commandhandler/parserfactory/parser/getparser.h \
@@ -60,6 +65,7 @@ HEADERS += \
     commandhandler/parserfactory/parser/tparser.h \
     common/action/addaction.h \
     common/action/clearaction.h \
+    mainwindow.h \
     common/action/pushaction.h \
     common/action/searchaction.h \
     common/searchoption.h \
@@ -83,6 +89,9 @@ HEADERS += \
     commandhandler\parserfactory\parserfactory.h \
     indexerrunner/indexerrunner.h \
     tcpserver.h
+
+FORMS += \
+    imainwindow
 
 CONFIG += lrelease
 CONFIG += embed_translations

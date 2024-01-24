@@ -14,7 +14,7 @@ GetAction::~GetAction() {
     qDebug() << "GetAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-void GetAction::run() {
+void GetAction::run(Sender* sender) {
     if(!this->_table.isNull() && !this->_table.isEmpty()){
         qDebug() << __FUNCTION__ << __LINE__;
 

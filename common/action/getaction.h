@@ -8,7 +8,7 @@ public:
     GetAction(QString table);
     virtual ~GetAction();
     virtual void notify() override;
-    virtual void run() override;
+    virtual void run(Sender* sender) override;
 private:
     QString _table;
 

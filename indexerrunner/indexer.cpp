@@ -12,12 +12,20 @@
 #include <QStandardPaths>
 
 
-Indexer::Indexer(QString dirPath, QStringList ext) : dirPath(dirPath), ext(ext)
+Indexer::Indexer(QString dirPath, QStringList ext, Sender* sender) : dirPath(dirPath), ext(ext), sender(sender)
 {
 
 }
 
+void Indexer::setStateThread(Enum::Status state)
+{
+    stateThread = state;
+    emit stateChanged();
+}
+
 void Indexer::run() {
+
+
     //Créer l'instance de la DB
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString dbFileName = Constants::DB_FILENAME;
@@ -27,6 +35,8 @@ void Indexer::run() {
     dbAdapter.open();
 
     qDebug() << "Execution du thread INDEXER";
+    sender->startIndexing();
+    sender->sendLogs("DEBUT INDEXATION");
 
     dbAdapter.clearTable("files");
 
@@ -40,8 +50,25 @@ void Indexer::run() {
     dbAdapter.prepareSaveTransaction();
     int i = 0;
     while (it.hasNext()) {
+
+        if (this->stateThread == Enum::Status::PAUSED) {
+            sender->sendLogs("PAUSE INDEXING");
+            sender->pauseIndexing();
+            QEventLoop loop;
+            connect(this, &Indexer::stateChanged, &loop, &QEventLoop::quit);
+            loop.exec();
+            sender->resumeIndexing();
+            sender->sendLogs("RESUME INDEXING");
+        }
+
+        if (this->stateThread == Enum::Status::STOPPED) {
+            sender->sendLogs("STOP INDEXING");
+            break;
+        }
+
         i++;
         if (i % Constants::LIMIT_PACK_FILES_INDEX == 0) {
+            sender->sendLogs(QString("Nombre de fichier actuellement indexer : %1").arg(i));
             dbAdapter.commitTransaction();
             dbAdapter.prepareSaveTransaction();
         }
@@ -65,8 +92,10 @@ void Indexer::run() {
     }
 
     dbAdapter.commitTransaction();
+    sender->sendLogs(QString("Nombre total de fichier indexer : %1").arg(i));
 
-    qDebug() << "Fin execution du thread INDEXER";
+    sender->sendLogs("FIN INDEXATION");
+    sender->endIndexing();
 
     dbAdapter.close();
 

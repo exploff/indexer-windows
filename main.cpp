@@ -9,6 +9,7 @@
 #include "common/debug/debug.h"
 #include "common/constants.h"
 #include "tcpserver.h"
+#include "mainwindow.h"
 
 #include <iostream>
 #include <string>
@@ -31,9 +32,12 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
     initDebug();
     logAppInfo();
+
+    MainWindow window;
+    window.show();
 
 /*
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);

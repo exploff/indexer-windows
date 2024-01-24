@@ -9,12 +9,12 @@ class IndexerAction : public Action
 {
 
     public:
-        IndexerAction(QString name);
+        IndexerAction(Enum::Status state);
         virtual ~IndexerAction();
         virtual void notify() override;
-        virtual void run() override;
+        virtual void run(Sender* sender) override;
     private:
-        QString name;
+        Enum::Status state;
 
 };
 

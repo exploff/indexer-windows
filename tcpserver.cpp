@@ -30,7 +30,7 @@ TCPServer::TCPServer(QObject *parent) : QObject(parent)
 
         //Log avec categorie
         //qCDebug(fooDebug) << "TEST ME";
-
+/*
         CommandHandler commandHandler;
 
         qDebug() << "Server started !";
@@ -47,7 +47,7 @@ TCPServer::TCPServer(QObject *parent) : QObject(parent)
         EXT:txt,doc,xlsx \
         TYPE:image OR text OR exec\
         ");
-
+*/
         /*
 
         commandHandler.processCommand("SEARCH \"testme please\" \
@@ -84,8 +84,22 @@ void TCPServer::newConnection() {
             qDebug() << "Client requested exit. Closing connection.";
             socket->close();
             return;
+        } else {
+            /*
+            CommandHandler commandHandler;
+
+            QString request = QString(data).trimmed();
+            if (request.contains("SEARCH")) {
+                commandHandler.processCommand(request);
+            }
+            */
         }
     }
 
     socket->close();
+}
+
+void TCPServer::onResultReady()
+{
+    qDebug() << "Resultat fini";
 }

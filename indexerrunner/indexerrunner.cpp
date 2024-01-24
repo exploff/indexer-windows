@@ -4,14 +4,14 @@
 
 IndexerRunner* IndexerRunner::indexerRunner_ = nullptr;
 
-IndexerRunner* IndexerRunner::getInstance() {
+IndexerRunner* IndexerRunner::getInstance(Sender* sender) {
     if (indexerRunner_ == nullptr) {
-        indexerRunner_ = new IndexerRunner();
+        indexerRunner_ = new IndexerRunner(sender);
     }
     return indexerRunner_;
 }
 
-IndexerRunner::IndexerRunner()
+IndexerRunner::IndexerRunner(Sender* sender)
 {
 
     qDebug() << __FUNCTION__ << " create thread indexer ";
@@ -19,33 +19,31 @@ IndexerRunner::IndexerRunner()
     QStringList ext;
     ext.append("*");
 
-    Indexer *indexerThread = new Indexer(dirPath, ext);
+    Indexer *indexerThread = new Indexer(dirPath, ext, sender);
 
     this->threadIndexer = indexerThread;
 }
+
+
 
 // A faire le destructeur pour arreter et detruire le thread
 
 void IndexerRunner::start() {
     qDebug() << "Start";
+    this->threadIndexer->setStateThread(Enum::Status::INDEXING);
     this->threadIndexer->start();
-
-    this->status = "START";
-
-    //TODO : a supprimer
-    this->threadIndexer->wait();
 }
 
 void IndexerRunner::pause() {
-    qDebug() << "PAUSE";
+    this->threadIndexer->setStateThread(Enum::Status::PAUSED);
 }
 
 void IndexerRunner::stop() {
-    qDebug() << "STOP";
+    this->threadIndexer->setStateThread(Enum::Status::STOPPED);
 }
 
 void IndexerRunner::resume() {
-    qDebug() << "PAUSE";
+    this->threadIndexer->setStateThread(Enum::Status::INDEXING);
 }
 
 void IndexerRunner::notify() {

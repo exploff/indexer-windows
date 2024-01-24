@@ -2,7 +2,7 @@
 #include "QDebug"
 #include <QMetaEnum>
 #include "common/enum/enum.h"
-CommandHandler::CommandHandler()
+CommandHandler::CommandHandler(Sender* sender): sender(sender)
 {
 
 }
@@ -21,7 +21,7 @@ void CommandHandler::processCommand(const QString input)
         Parser* parser = this->parserFactory.build(commandName, this->normalizer.tokens());
         Action* action = parser->parse();
 
-        this->executor.runAction(action);
+        this->executor.runAction(action, sender);
     }
 
 

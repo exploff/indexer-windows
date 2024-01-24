@@ -14,6 +14,8 @@ signals:
 
 public slots:
     void newConnection();
+    void onResultReady();
+
 
 private:
     QTcpServer *server;

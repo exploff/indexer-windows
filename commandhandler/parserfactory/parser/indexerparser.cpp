@@ -11,6 +11,27 @@ IndexerParser::IndexerParser()
 
 Action* IndexerParser::parse()
 {
-    return new IndexerAction("INDEXER");
+
+    Token* tokenAction = this->getTokens()[1];
+
+    QString action = tokenAction->value();
+    Enum::Status state = Enum::Status::INDEXING;
+
+    if (action == "START")
+    {
+        state = Enum::Status::INDEXING;
+    }
+    else if (action == "STOP") {
+        state = Enum::Status::STOPPED;
+    }
+    else if (action == "PAUSE") {
+        state = Enum::Status::PAUSED;
+    }
+    else if (action == "RESUME") {
+        state = Enum::Status::READY;
+    }
+
+
+    return new IndexerAction(state);
 }
 

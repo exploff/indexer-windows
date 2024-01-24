@@ -6,7 +6,7 @@ Executor::Executor()
 
 }
 
-void Executor::runAction(Action *action)
+void Executor::runAction(Action *action, Sender* sender)
 {
-    action->run();
+    action->run(sender);
 }

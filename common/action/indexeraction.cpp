@@ -10,10 +10,8 @@
  * @brief IndexerAction::IndexerAction
  * @param name
  */
-IndexerAction::IndexerAction(QString name)
+IndexerAction::IndexerAction(Enum::Status state): state(state)
 {
-    qDebug() << "IndexerAction constructor" << __LINE__ << __FUNCTION__;
-    this->name = name;
 }
 
 
@@ -22,32 +20,28 @@ IndexerAction::~IndexerAction()
     qDebug() << "IndexerAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-void IndexerAction::run() {
+void IndexerAction::run(Sender* sender) {
     qDebug() << "IndexerAction" << __FUNCTION__ << __LINE__;
 
     qDebug() << "IndexerAction START";
 
-    IndexerRunner* indexerRunner = IndexerRunner::getInstance();
-    indexerRunner->start();
-
-    /*
-    //Dossier racine que l'on doit indéxer
-    QString dirPath = "C:\\Users\\Julien\\Documents";
-
-    //Extension que l'on indexe
-    QStringList ext;
-    ext.append("*");
-
-    Indexer *indexerThread = new Indexer(dirPath, ext);
-    //connect(indexerThread, &Indexer::resultReady, this, &MyObject::handleResults);
-    //connect(indexerThread, &Indexer::finished, indexerThread, &QObject::deleteLater);
-    indexerThread->start();
-
-    // TODO : A SUPPRIMER
-    indexerThread->wait();
-*/
-
-    qDebug() << "IndexerAction END";
+    IndexerRunner* indexerRunner = IndexerRunner::getInstance(sender);
+    if (this->state == Enum::Status::INDEXING)
+    {
+        indexerRunner->start();
+    }
+    else if(this->state == Enum::Status::STOPPED)
+    {
+        indexerRunner->stop();
+    }
+    else if (this->state == Enum::Status::PAUSED)
+    {
+        indexerRunner->pause();
+    }
+    else if (this->state == Enum::Status::READY)
+    {
+        indexerRunner->resume();
+    }
 }
 
 void IndexerAction::notify() {

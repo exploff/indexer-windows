@@ -14,7 +14,7 @@ SearchAction::~SearchAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-void SearchAction::run() {
+void SearchAction::run(Sender* sender) {
 
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString dbFileName = Constants::DB_FILENAME;
@@ -31,7 +31,9 @@ void SearchAction::run() {
     qDebug() << "Resultats : " << results.length();
     if (results.length() > 0) {
         qDebug() << results.first().getPath() << " / " << results.first().getFileName() << results.first().getCreatedDate() << results.first().getModifiedDate();
+        sender->searchResult(results);
     }
+
 }
 
 void SearchAction::notify() {

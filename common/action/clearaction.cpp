@@ -12,7 +12,7 @@ ClearAction::~ClearAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-void ClearAction::run() {
+void ClearAction::run(Sender* sender) {
     qDebug() << __FUNCTION__ << __LINE__;
 }
 
