@@ -31,7 +31,10 @@ void SearchAction::run(Sender* sender) {
     qDebug() << "Resultats : " << results.length();
     if (results.length() > 0) {
         qDebug() << results.first().getPath() << " / " << results.first().getFileName() << results.first().getCreatedDate() << results.first().getModifiedDate();
+        sender->sendLogs(QString("Nombre de résultat : %1").arg(results.length()));
         sender->searchResult(results);
+    } else {
+        sender->sendLogs("Aucun résultat");
     }
 
 }

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Envoyer</string>
+     <string>Send</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="textEdit">
@@ -146,6 +146,42 @@
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>20</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Root folder to be indexed</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEditRootFolder">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>40</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonRootFolder">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>40</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

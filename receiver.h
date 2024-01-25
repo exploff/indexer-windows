@@ -23,6 +23,7 @@ public slots:
     void onSendingLogs(QString log);
 
     void onAddOneSearchResult(FileInfo result);
+    void onActionResult(QString result);
 
 signals:
 

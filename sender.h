@@ -9,11 +9,10 @@ class Sender : public QObject
 {
     Q_OBJECT
     int _value = 0;
-    Ui::MainWindow* mainUi;
 
 public:
     //explicit Sender(QObject *parent = nullptr);
-    Sender(Ui::MainWindow* mainUi);
+    Sender();
 
     void setValue(int newValue);
     void startIndexing();
@@ -23,6 +22,7 @@ public:
     void resumeIndexing();
 
     void searchResult(QList<FileInfo> &results);
+    void sendActionResult(QList<QString> results);
 
 signals:
     void indexingStart();
@@ -31,6 +31,7 @@ signals:
     void indexingResume();
     void addingSearchResult(FileInfo result);
     void sendingLogs(QString log);
+    void actionResult(QString result);
 };
 
 #endif // SENDER_H

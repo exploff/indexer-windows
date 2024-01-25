@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void setRootFolderToBeIndexed(QString rootFolder);
 
 private slots:
     void on_submitButton_clicked();
@@ -24,6 +25,8 @@ private slots:
     void on_buttonStopIndexing_clicked();
     void on_buttonPauseIndexing_clicked();
     void on_buttonResumeIndexing_clicked();
+    void on_buttonRootFolder_clicked();
+    void on_resultItemClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

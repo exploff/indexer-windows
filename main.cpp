@@ -36,7 +36,20 @@ int main(int argc, char *argv[])
     initDebug();
     logAppInfo();
 
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbFileName = Constants::DB_FILENAME;
+
+    DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+
+    dbAdapter.open();
+    dbAdapter.initTables();
+    QString rootFolderToBeIndexed = dbAdapter.getRootFolderToBeIndexed();
+    dbAdapter.close();
+
+
     MainWindow window;
+    window.setRootFolderToBeIndexed(rootFolderToBeIndexed);
+
     window.show();
 
 /*

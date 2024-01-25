@@ -94,6 +94,11 @@ int DBAdapter::initTables()
                              "PRIMARY KEY (extension)"
                              ")";
 
+    QString tableRootFolder = "CREATE TABLE IF NOT EXISTS infos ("
+                      "pathToIndex STRING,"
+                      "PRIMARY KEY (pathToIndex)"
+                      ")";
+
     QSqlQuery query;
     query.exec(tblFile);
     if (query.lastError().isValid()) {
@@ -133,6 +138,14 @@ int DBAdapter::initTables()
         return -1;
     }
     qDebug() << __FUNCTION__ << __LINE__ << "Init table skippedFilters";
+    query.finish();
+
+    query.exec(tableRootFolder);
+    if (query.lastError().isValid()) {
+        qWarning() << "create table tableRootFolder" << query.lastError().text();
+        return -1;
+    }
+    qDebug() << __FUNCTION__ << __LINE__ << "Init table tableRootFolder";
     query.finish();
 
     return 0;
@@ -217,6 +230,42 @@ QList<FileInfo> DBAdapter::getAll()
     return results;
 }
 
+void DBAdapter::updateRootFolderToBeIndexed(QString path) {
+
+    clearTable("infos");
+
+    QSqlQuery query;
+
+    QString sqlInsert ="INSERT INTO infos VALUES (\"" + path + "\")";
+
+    query.exec(sqlInsert);
+    if (query.lastError().isValid()) {
+        qWarning() << sqlInsert << query.lastError().text();
+    }
+    query.finish();
+}
+
+QString DBAdapter::getRootFolderToBeIndexed() {
+    QSqlQuery query;
+    QString rootFolder;
+
+    QString sqlGet ="select * from infos limit 1";
+
+    query.exec(sqlGet);
+    if (query.lastError().isValid()) {
+        qWarning() << sqlGet << query.lastError().text();
+        return rootFolder;
+    }
+    if (query.next()) {
+        // Assuming there is a single column in the result set, adjust as needed
+        QString value = query.value(0).toString();
+        rootFolder = value;
+    }
+    query.finish();
+
+    return rootFolder;
+}
+
 void DBAdapter::clearTable(QString tableName) {
     qDebug() << "Clear table " + tableName;
     QString sqlClear = "DELETE FROM " + tableName;
@@ -256,12 +305,11 @@ void DBAdapter::addAction(QString table, QList<QString> folderOrTypes) {
 }
 
 QList<QString> DBAdapter::getAction(QString table) {
-    qDebug() << "add to table " + table;
+    qDebug() << "get from table " + table;
     QSqlQuery query;
     QList<QString> resultList;
 
     QString sqlGet ="select * from  " + table;
-
     query.exec(sqlGet);
     if (query.lastError().isValid()) {
         qWarning() << sqlGet << query.lastError().text();
@@ -431,4 +479,5 @@ QString DBAdapter::buildDateCondition(const QString& field, const QString& condi
     }
     return result;
 }
+
 

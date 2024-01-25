@@ -12,7 +12,7 @@
 #include <QStandardPaths>
 
 
-Indexer::Indexer(QString dirPath, QStringList ext, Sender* sender) : dirPath(dirPath), ext(ext), sender(sender)
+Indexer::Indexer(QStringList ext, Sender* sender) : ext(ext), sender(sender)
 {
 
 }
@@ -40,9 +40,14 @@ void Indexer::run() {
 
     dbAdapter.clearTable("files");
 
+    QString rootFolderToBeIndexed = dbAdapter.getRootFolderToBeIndexed();
+    if (rootFolderToBeIndexed == "") {
+        rootFolderToBeIndexed = "C:/";
+    }
+
     //Extension type
     Enum::FileType type = Enum::FileType::TEXT;
-    QDirIterator it(dirPath, ext, QDir::Files, QDirIterator::Subdirectories);
+    QDirIterator it(rootFolderToBeIndexed, ext, QDir::Files, QDirIterator::Subdirectories);
     QFileInfo fileMetadata = QFileInfo();
 
     FileInfo fileInfo;

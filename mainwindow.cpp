@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include "ui_imainwindow.h"
 #include "commandhandler/commandhandler.h"
+#include "common/constants.h"
+#include <QStandardPaths>
+#include <QFileInfo>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow),  receiver(ui), sender(ui)
+    , ui(new Ui::MainWindow),  receiver(ui), sender()
 {
     ui->setupUi(this);
 
@@ -13,8 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&sender, &Sender::indexingPause, &receiver, &Receiver::onIndexingPause);
     QObject::connect(&sender, &Sender::indexingResume, &receiver, &Receiver::onIndexingResume);
     QObject::connect(&sender, &Sender::addingSearchResult, &receiver, &Receiver::onAddOneSearchResult);
+    QObject::connect(&sender, &Sender::actionResult, &receiver, &Receiver::onActionResult);
 
     QObject::connect(&sender, &Sender::sendingLogs, &receiver, &Receiver::onSendingLogs);
+
+    QObject::connect(ui->resultSearch, &QListWidget::itemClicked, this, &MainWindow::on_resultItemClicked);
 
 }
 
@@ -23,6 +30,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setRootFolderToBeIndexed(QString rootFolder)
+{
+    qDebug() << "rootFolder" << rootFolder;
+    ui->textEditRootFolder->setPlainText(rootFolder);
+}
 
 void MainWindow::on_submitButton_clicked()
 {
@@ -33,7 +45,7 @@ void MainWindow::on_submitButton_clicked()
     QString command = ui->textEdit->toPlainText();
     ui->textEdit->clear();
 
-    ui->resultSearch->addItem("COMMANDE : " + command);
+    sender.sendLogs("COMMANDE : " + command);
 
     qDebug() << "Commande : " << command;
     CommandHandler commandHandler(&sender);
@@ -77,4 +89,34 @@ void MainWindow::on_buttonResumeIndexing_clicked()
     CommandHandler commandHandler(&sender);
 
     commandHandler.processCommand("INDEXER RESUME");
+}
+
+void MainWindow::on_buttonRootFolder_clicked()
+{
+    qDebug() << "on_buttonRootFolder_clicked";
+    QString rootFolderToBeIndexed = ui->textEditRootFolder->toPlainText();
+
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbFileName = Constants::DB_FILENAME;
+
+    DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+
+    dbAdapter.open();
+    dbAdapter.updateRootFolderToBeIndexed(rootFolderToBeIndexed);
+    dbAdapter.close();
+
+    ui->logs->append("Root folder to be indexed : " + rootFolderToBeIndexed);
+}
+
+void MainWindow::on_resultItemClicked(QListWidgetItem *item)
+{
+    if (item) {
+        QString filePath = item->text();  // Obtenez le chemin du fichier sélectionné
+
+        QFileInfo fileInfo(filePath);
+        QString folderPath = fileInfo.path();
+
+        // Ouvrez l'explorateur de fichiers
+        QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+    }
 }

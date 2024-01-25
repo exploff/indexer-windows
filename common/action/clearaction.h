@@ -7,12 +7,13 @@
 class ClearAction : public Action
 {
 public:
-    ClearAction(QString name);
+    ClearAction(QString table);
     virtual ~ClearAction();
     virtual void notify() override;
     virtual void run(Sender* sender) override;
 private:
-    QString name;
+    QString table;
+
 };
 
 #endif // CLEARACTION_H

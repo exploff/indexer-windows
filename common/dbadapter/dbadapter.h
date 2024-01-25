@@ -25,6 +25,8 @@ class DBAdapter
         void addAction(QString table,QList<QString> folderOrTypes);
         QList<QString> getAction(QString table);
         QList<FileInfo> searchAction(SearchOption searchOption);
+        QString getRootFolderToBeIndexed();
+        void updateRootFolderToBeIndexed(QString path);
     private:
         QString buildSizeCondition(const QString& condition, const QString& size, bool& isFirstCondition);
         QString buildWhereCondition(const QString& condition, const QString& value, bool& isFirstCondition);

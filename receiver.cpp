@@ -50,3 +50,8 @@ void Receiver::onAddOneSearchResult(FileInfo result)
 {
     mainUi->resultSearch->addItem(result.getPath() + "/" + result.getFileName());
 }
+
+void Receiver::onActionResult(QString result)
+{
+    mainUi->logs->append(result);
+}

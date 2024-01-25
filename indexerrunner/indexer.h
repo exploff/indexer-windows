@@ -11,11 +11,10 @@ class Indexer: public QThread
     Q_OBJECT
 
     public:
-        Indexer(QString dirPath, QStringList ext, Sender* sender);
+        Indexer(QStringList ext, Sender* sender);
         void run() override;
         void setStateThread(Enum::Status state);
     private:
-        QString dirPath;
         QStringList ext;
         Sender * sender;
         Enum::Status stateThread;

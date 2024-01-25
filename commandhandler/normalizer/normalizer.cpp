@@ -134,11 +134,15 @@ bool Normalizer::isExtension(QString token) {
 
     if (mimeType.isValid()) {
         int i = _tokens.size() -1;
-        //Get last token options and check if is OPTIONS EXT
+        //Get last token options and check if is OPTIONS EXT or TABLE
         while (i >= 0) {
             Token* t = _tokens[i];
+            qDebug() << "TEST DU TOKEN " << t->typeString();
             if (t->type() == Enum::TokenTypes::OPTION_EXT) {
                 return t->value() == "EXT";
+            }
+            if (t->type() == Enum::TokenTypes::TABLE) {
+                return t->value() == "FILTERS" || t->value() == "SKIPPED_FILTERS";
             }
             i = i - 1;
         }

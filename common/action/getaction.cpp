@@ -30,8 +30,11 @@ void GetAction::run(Sender* sender) {
         DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
 
         dbAdapter.open();
-        dbAdapter.getAction(this->_table);
+        QList<QString> results = dbAdapter.getAction(this->_table);
         dbAdapter.close();
+        sender->sendActionResult(results);
+
+
     }else{
         qDebug() << "table name is empty";
     }

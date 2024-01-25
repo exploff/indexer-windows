@@ -11,5 +11,12 @@ ClearParser::ClearParser()
 
 Action* ClearParser::parse()
 {
-    return new ClearAction("CLEAR");
+    QString tableName;
+    QList<QString> folderOrTypes;
+    for (Token* token :  this->getTokens()) {
+        if (token->type() == Enum::TokenTypes::TABLE) {
+            tableName = token->value();
+        }
+    }
+    return new ClearAction(tableName);
 }

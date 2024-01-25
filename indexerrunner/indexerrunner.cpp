@@ -15,11 +15,10 @@ IndexerRunner::IndexerRunner(Sender* sender)
 {
 
     qDebug() << __FUNCTION__ << " create thread indexer ";
-    QString dirPath = "C:\\Users\\Julien\\Documents";
     QStringList ext;
     ext.append("*");
 
-    Indexer *indexerThread = new Indexer(dirPath, ext, sender);
+    Indexer *indexerThread = new Indexer(ext, sender);
 
     this->threadIndexer = indexerThread;
 }

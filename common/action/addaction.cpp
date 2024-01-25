@@ -16,6 +16,7 @@ AddAction::~AddAction() {
 }
 
 void AddAction::run(Sender* sender) {
+
     if(!this->table.isNull() && !this->table.isEmpty() && this->folderOrTypes.size()>0){
         QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
         QString dbFileName = Constants::DB_FILENAME;

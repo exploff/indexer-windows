@@ -1,11 +1,12 @@
 #include "clearaction.h"
 #include <QDebug>
 #include "../dbadapter/dbadapter.h"
+#include "common/constants.h"
 
-ClearAction::ClearAction(QString name)
+#include <QStandardPaths>
+
+ClearAction::ClearAction(QString table): table(table)
 {
-    qDebug() << __LINE__ << __FUNCTION__;
-    this->name = name;
 }
 
 ClearAction::~ClearAction() {
@@ -13,7 +14,15 @@ ClearAction::~ClearAction() {
 }
 
 void ClearAction::run(Sender* sender) {
-    qDebug() << __FUNCTION__ << __LINE__;
+
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbFileName = Constants::DB_FILENAME;
+
+    DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
+    dbAdapter.open();
+    dbAdapter.clearTable(this->table);
+    dbAdapter.close();
+    sender->sendLogs("Clear DONE");
 }
 
 void ClearAction::notify() {

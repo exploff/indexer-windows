@@ -19,14 +19,7 @@ TCPServer::TCPServer(QObject *parent) : QObject(parent)
     } else {
         qDebug() << "Set up server";
 
-        QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        QString dbFileName = Constants::DB_FILENAME;
 
-        DBAdapter dbAdapter = DBAdapter(appDataLocation, dbFileName);
-
-        dbAdapter.open();
-        dbAdapter.initTables();
-        dbAdapter.close();
 
         //Log avec categorie
         //qCDebug(fooDebug) << "TEST ME";
