@@ -22,6 +22,7 @@ SOURCES += \
     commandhandler/parserfactory/parser/searchparser.cpp \
     common/action/addaction.cpp \
     common/action/clearaction.cpp \
+    common/exception/parserexception.cpp \
     mainwindow.cpp \
     common/action/pushaction.cpp \
     common/action/searchaction.cpp \
@@ -55,6 +56,7 @@ RESOURCES += \
     dataset.qrc
 
 HEADERS += \
+    common/exception/parserexception.h \
     receiver.h \
     sender.h \
     commandhandler/parserfactory/parser/addparser.h \

@@ -2,6 +2,8 @@
 #include "QDebug"
 #include <QMetaEnum>
 #include "common/enum/enum.h"
+#include "common/exception/parserexception.h"
+
 CommandHandler::CommandHandler(Sender* sender): sender(sender)
 {
 
@@ -18,10 +20,15 @@ void CommandHandler::processCommand(const QString input)
     if (commandToken->type() == Enum::TokenTypes::COMMANDE) {
         QString commandName = commandToken->value();
 
-        Parser* parser = this->parserFactory.build(commandName, this->normalizer.tokens());
-        Action* action = parser->parse();
+        try {
+            Parser* parser = this->parserFactory.build(commandName, this->normalizer.tokens());
+            Action* action = parser->parse();
 
-        this->executor.runAction(action, sender);
+            this->executor.runAction(action, sender);
+        } catch(const ParserException &e) {
+            qDebug() << "Erreur parse" << e.what();
+            this->sender->sendLogs(QString(e.what()));
+        }
     }
 
 

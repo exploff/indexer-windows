@@ -40,6 +40,10 @@ void Indexer::run() {
 
     dbAdapter.clearTable("files");
 
+    QList<QString> blacklistsFolders = dbAdapter.getAction(Constants::BLACKLIST_DB);
+    QList<QString> skippedExtensions = dbAdapter.getAction(Constants::SKIPPED_FILTERS_DB);
+    QList<QString> filterExtensions = dbAdapter.getAction(Constants::FILTERS_DB);
+
     QString rootFolderToBeIndexed = dbAdapter.getRootFolderToBeIndexed();
     if (rootFolderToBeIndexed == "") {
         rootFolderToBeIndexed = "C:/";
@@ -54,6 +58,8 @@ void Indexer::run() {
 
     dbAdapter.prepareSaveTransaction();
     int i = 0;
+    int nbFichierSkipped = 0;
+
     while (it.hasNext()) {
 
         if (this->stateThread == Enum::Status::PAUSED) {
@@ -71,18 +77,26 @@ void Indexer::run() {
             break;
         }
 
+        fileMetadata.setFile(it.next());
+
+        //qDebug() << shouldSkipFile(fileMetadata.absolutePath(), blacklistsFolders) ;
+        //qDebug() <<             shouldSkipFileByExtension(Constants::SKIPPED_FILTERS_DB, fileMetadata.suffix(), skippedExtensions);
+        //qDebug() <<    shouldSkipFileByExtension(Constants::FILTERS_DB, fileMetadata.suffix(), filterExtensions);
+        // Vérifier si le dossier parent est dans la liste de la blacklist
+        if (shouldSkipFile(fileMetadata.absolutePath(), blacklistsFolders) ||
+            shouldSkipFileByExtension(Constants::SKIPPED_FILTERS_DB, fileMetadata.suffix(), skippedExtensions) ||
+            shouldSkipFileByExtension(Constants::FILTERS_DB, fileMetadata.suffix(), filterExtensions)) {
+            nbFichierSkipped++;
+            continue;
+        }
+
+
         i++;
         if (i % Constants::LIMIT_PACK_FILES_INDEX == 0) {
             sender->sendLogs(QString("Nombre de fichier actuellement indexer : %1").arg(i));
             dbAdapter.commitTransaction();
             dbAdapter.prepareSaveTransaction();
         }
-
-        //Voir pour optimiser : it.fileInfo(); et ne plus utiliser fileInfo, directement passer le QFileInfo
-
-        //qDebug() << it.next();
-        fileMetadata.setFile(it.next());
-        //qDebug() << fileMetadata.fileName();
 
         fileInfo.setPath(fileMetadata.absolutePath());
         fileInfo.setFileName(fileMetadata.fileName());
@@ -98,6 +112,7 @@ void Indexer::run() {
 
     dbAdapter.commitTransaction();
     sender->sendLogs(QString("Nombre total de fichier indexer : %1").arg(i));
+    sender->sendLogs(QString("Nombre total de fichier skip : %1").arg(nbFichierSkipped));
 
     sender->sendLogs("FIN INDEXATION");
     sender->endIndexing();
@@ -105,4 +120,25 @@ void Indexer::run() {
     dbAdapter.close();
 
     emit resultReady("Thread Indexer DONE");
+}
+
+bool Indexer::shouldSkipFile(const QString &filePath, const QList<QString> &folderList) {
+    for (const QString &folder : folderList) {
+        if (filePath.startsWith(folder, Qt::CaseInsensitive)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Indexer::shouldSkipFileByExtension(const QString &condition, const QString &fileExtension, const QList<QString> &extensions) {
+
+    if (condition == Constants::SKIPPED_FILTERS_DB && extensions.contains(fileExtension)) {
+        return true;
+    } else if (condition == Constants::FILTERS_DB && extensions.length() > 0 && !extensions.contains(fileExtension)) {
+        return true;
+    }
+
+    return false;
 }

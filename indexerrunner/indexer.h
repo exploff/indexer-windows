@@ -18,6 +18,9 @@ class Indexer: public QThread
         QStringList ext;
         Sender * sender;
         Enum::Status stateThread;
+        bool shouldSkipFile(const QString &filePath, const QList<QString> &stringLists);
+        bool shouldSkipFileByExtension(const QString &condition, const QString &fileExtension, const QList<QString> &extensions);
+
     signals:
         void resultReady(const QString &s);
         void stateChanged();

@@ -5,6 +5,7 @@
 #include "commandhandler/parserfactory/parser/pushparser.h"
 #include "commandhandler/parserfactory/parser/clearparser.h"
 #include "commandhandler/parserfactory/parser/searchparser.h"
+#include "common/exception/parserexception.h"
 
 ParserFactory::ParserFactory()
 {
@@ -35,11 +36,12 @@ Parser* ParserFactory::build(QString command, const QList<Token*>& tokenList)
 {
     qDebug() << __FUNCTION__ << "START BUILD PARSER";
 
+    command = command.toUpper();
+
     CreateParserFn fn = m_factoryMap[command];
     if (fn == nullptr) {
         qDebug() << "NULL POINTER - COMMAND EXISTE PAS";
-
-        //@Todo : declencher exception
+        throw ParserException(QString("COMMANDE %1 EXISTE PAS").arg(command));
     }
 
     qDebug() << "#############";
