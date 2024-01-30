@@ -10,7 +10,7 @@ public:
     ClearAction(QString table);
     virtual ~ClearAction();
     virtual void notify() override;
-    virtual void run(Sender* sender) override;
+    virtual QVariant run(Sender* sender) override;
 private:
     QString table;
 

@@ -13,7 +13,7 @@ ClearAction::~ClearAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-void ClearAction::run(Sender* sender) {
+QVariant ClearAction::run(Sender* sender) {
 
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString dbFileName = Constants::DB_FILENAME;

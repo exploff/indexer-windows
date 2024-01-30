@@ -12,7 +12,7 @@ class IndexerAction : public Action
         IndexerAction(Enum::Status state);
         virtual ~IndexerAction();
         virtual void notify() override;
-        virtual void run(Sender* sender) override;
+        virtual QVariant run(Sender* sender) override;
     private:
         Enum::Status state;
 

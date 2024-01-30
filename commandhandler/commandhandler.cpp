@@ -8,7 +8,7 @@ CommandHandler::CommandHandler(Sender* sender): sender(sender)
 {
 
 }
-void CommandHandler::processCommand(const QString input)
+QVariant CommandHandler::processCommand(const QString input)
 {
 
     this->normalizer.tokenize(input);
@@ -24,10 +24,11 @@ void CommandHandler::processCommand(const QString input)
             Parser* parser = this->parserFactory.build(commandName, this->normalizer.tokens());
             Action* action = parser->parse();
 
-            this->executor.runAction(action, sender);
+            return this->executor.runAction(action, sender);
         } catch(const ParserException &e) {
             qDebug() << "Erreur parse" << e.what();
             this->sender->sendLogs(QString(e.what()));
+            return "command not found";
         }
     }
 

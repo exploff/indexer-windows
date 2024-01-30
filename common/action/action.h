@@ -8,7 +8,7 @@ class Action {
     public:
         virtual ~Action() = default;
         virtual void notify() = 0;
-        virtual void run(Sender* sender) = 0;
+        virtual QVariant run(Sender* sender) = 0;
 };
 
 #endif // ACTION_H

@@ -9,7 +9,7 @@ class Executor
     DBAdapter db;
     public:
         Executor();
-        void runAction(Action *action, Sender* sender);
+        QVariant runAction(Action *action, Sender* sender);
 };
 
 #endif // EXECUTOR_H

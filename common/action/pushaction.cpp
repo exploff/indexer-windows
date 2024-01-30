@@ -12,8 +12,9 @@ PushAction::~PushAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-void PushAction::run(Sender* sender) {
+QVariant PushAction::run(Sender* sender) {
     qDebug() << __FUNCTION__ << __LINE__;
+    return "push action";
 }
 
 void PushAction::notify() {

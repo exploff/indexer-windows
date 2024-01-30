@@ -334,7 +334,7 @@ QList<FileInfo> DBAdapter::searchAction(SearchOption searchOption)
     QString sqlSelect = "SELECT * FROM files";
 
     bool isFirstCondition = true;
-
+    qDebug() << searchOption.getValue();
     if (searchOption.hasValue()) {
         sqlSelect += buildNameCondition(searchOption.getValue(), isFirstCondition);
     }

@@ -14,7 +14,7 @@ public:
     SearchAction(SearchOption searchOption);
     virtual ~SearchAction();
     virtual void notify() override;
-    virtual void run(Sender* sender) override;
+    virtual QVariant run(Sender* sender) override;
 private:
     SearchOption _searchOption;
 

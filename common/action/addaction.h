@@ -10,7 +10,7 @@ class AddAction: public Action
     AddAction(QString table,QList<QString> folderOrTypes);
         virtual ~AddAction();
         virtual void notify() override;
-        virtual void run(Sender* sender) override;
+        virtual QVariant run(Sender* sender) override;
     private:
         QList<QString> folderOrTypes;
         QString table;

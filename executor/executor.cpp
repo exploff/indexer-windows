@@ -6,7 +6,7 @@ Executor::Executor()
 
 }
 
-void Executor::runAction(Action *action, Sender* sender)
+QVariant Executor::runAction(Action *action, Sender* sender)
 {
-    action->run(sender);
+    return action->run(sender);
 }

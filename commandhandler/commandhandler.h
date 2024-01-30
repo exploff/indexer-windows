@@ -14,7 +14,7 @@ class CommandHandler
     public:
         CommandHandler(Sender* sender);
     public:
-        void processCommand(QString command);
+        QVariant processCommand(QString command);
 
     private:
         Sender* sender;

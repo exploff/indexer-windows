@@ -20,28 +20,35 @@ IndexerAction::~IndexerAction()
     qDebug() << "IndexerAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-void IndexerAction::run(Sender* sender) {
+QVariant IndexerAction::run(Sender* sender) {
     qDebug() << "IndexerAction" << __FUNCTION__ << __LINE__;
 
     qDebug() << "IndexerAction START";
+
 
     IndexerRunner* indexerRunner = IndexerRunner::getInstance(sender);
     if (this->state == Enum::Status::INDEXING)
     {
         indexerRunner->start();
+        return "indexer start";
     }
     else if(this->state == Enum::Status::STOPPED)
     {
         indexerRunner->stop();
+        return "indexer stop";
     }
     else if (this->state == Enum::Status::PAUSED)
     {
         indexerRunner->pause();
+        return "indexer pause";
     }
     else if (this->state == Enum::Status::READY)
     {
         indexerRunner->resume();
+        return "indexer resume";
     }
+
+    return "Indexer start";
 }
 
 void IndexerAction::notify() {

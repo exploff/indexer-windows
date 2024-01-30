@@ -14,7 +14,7 @@ GetAction::~GetAction() {
     qDebug() << "GetAction destructor" << __LINE__ << __FUNCTION__;
 }
 
-void GetAction::run(Sender* sender) {
+QVariant GetAction::run(Sender* sender) {
     if(!this->_table.isNull() && !this->_table.isEmpty()){
         qDebug() << __FUNCTION__ << __LINE__;
 
@@ -33,10 +33,11 @@ void GetAction::run(Sender* sender) {
         QList<QString> results = dbAdapter.getAction(this->_table);
         dbAdapter.close();
         sender->sendActionResult(results);
-
+        return results;
 
     }else{
         qDebug() << "table name is empty";
+        return "you did not specify wat you want to get";
     }
 
 }

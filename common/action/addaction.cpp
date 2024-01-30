@@ -15,7 +15,7 @@ AddAction::~AddAction() {
     qDebug() << __LINE__ << __FUNCTION__;
 }
 
-void AddAction::run(Sender* sender) {
+QVariant AddAction::run(Sender* sender) {
 
     if(!this->table.isNull() && !this->table.isEmpty() && this->folderOrTypes.size()>0){
         QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
@@ -26,8 +26,10 @@ void AddAction::run(Sender* sender) {
         dbAdapter.addAction(this->table,this->folderOrTypes);
         dbAdapter.close();
         qDebug() << __FUNCTION__ << __LINE__;
+        return "add correct";
     }else {
         qDebug() << "table name or folderOrTypes is empty";
+        return "table name or folderOrTypes is empty";
     }
 }
 
