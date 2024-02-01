@@ -12,9 +12,9 @@ void CommandHandler::processCommand(const QString input)
 {
 
     this->normalizer.tokenize(input);
-    for (Token* token : this->normalizer.tokens()) {
+    /*for (Token* token : this->normalizer.tokens()) {
         qDebug() << "Value: " << token->value() << " => " << token->typeString();
-    }
+    }*/
 
     Token* commandToken = this->normalizer.tokens()[0];
     if (commandToken->type() == Enum::TokenTypes::COMMANDE) {

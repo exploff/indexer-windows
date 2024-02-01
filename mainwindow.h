@@ -27,6 +27,7 @@ private slots:
     void on_buttonResumeIndexing_clicked();
     void on_buttonRootFolder_clicked();
     void on_resultItemClicked(QListWidgetItem *item);
+    void on_tableWidget_itemClicked(QTableWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

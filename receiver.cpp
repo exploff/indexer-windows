@@ -49,6 +49,14 @@ void Receiver::onSendingLogs(QString log)
 void Receiver::onAddOneSearchResult(FileInfo result)
 {
     mainUi->resultSearch->addItem(result.getPath() + "/" + result.getFileName());
+
+    int row = mainUi->tableWidget->rowCount();  // Ajouter une nouvelle ligne
+    mainUi->tableWidget->insertRow(row);
+
+    mainUi->tableWidget->setItem(row, 0, new QTableWidgetItem(result.getFileName()));
+    mainUi->tableWidget->setItem(row, 1, new QTableWidgetItem(QString::number(result.getSize())));
+    mainUi->tableWidget->setItem(row, 2, new QTableWidgetItem(result.getCreatedDate().toString("dd/MM/yyyy")));
+    mainUi->tableWidget->setItem(row, 3, new QTableWidgetItem(result.getPath()));
 }
 
 void Receiver::onActionResult(QString result)

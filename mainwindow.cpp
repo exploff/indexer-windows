@@ -22,7 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&sender, &Sender::sendingLogs, &receiver, &Receiver::onSendingLogs);
 
     QObject::connect(ui->resultSearch, &QListWidget::itemClicked, this, &MainWindow::on_resultItemClicked);
+    QObject::connect(ui->tableWidget, &QTableWidget::itemClicked, this, &MainWindow::on_tableWidget_itemClicked);
 
+    QStringList headers;
+    headers << "Name" << "Size" << "Date" << "Path";
+
+    ui->tableWidget->setColumnCount(headers.size());
+    ui->tableWidget->setHorizontalHeaderLabels(headers);
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +46,8 @@ void MainWindow::on_submitButton_clicked()
 {
 
     ui->resultSearch->clear();
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
 
     qDebug() << "Submit clicked !";
     QString command = ui->textEdit->toPlainText();
@@ -118,5 +126,16 @@ void MainWindow::on_resultItemClicked(QListWidgetItem *item)
 
         // Ouvrez l'explorateur de fichiers
         QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+    }
+}
+
+void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
+{
+    if (item && item->column() == 3) {
+        int row = item->row();
+
+        QString path = ui->tableWidget->item(row, 3)->text();
+
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     }
 }

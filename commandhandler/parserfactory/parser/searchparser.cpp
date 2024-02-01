@@ -35,7 +35,7 @@ Action* SearchParser::parse()
 
 
     this->m_searchfsm->connectToState("SIZE_AND", [this, searchOption, &setSize]() {
-        qDebug() << "1 > TRAITEMENT DE SIZE AND";
+        //qDebug() << "1 > TRAITEMENT DE SIZE AND";
         setSize = true;
     });
 
@@ -68,11 +68,11 @@ Action* SearchParser::parse()
     });
 
     this->m_searchfsm->connectToState("OPTION_EXT", [this, searchOption]() {
-        qDebug() << "OPTION EXT";
+        //qDebug() << "OPTION EXT";
     });
 
     this->m_searchfsm->connectToState("OPTION_TYPE", [this, searchOption]() {
-        qDebug() << "OPTION TYPE";
+        //qDebug() << "OPTION TYPE";
     });
 
     this->m_searchfsm->connectToState("STRING", [this, searchOption]() {
@@ -83,7 +83,7 @@ Action* SearchParser::parse()
     });
 
     this->m_searchfsm->connectToState("EXTENSION", [this, searchOption]() {
-        qDebug() << "AJOUT D EXTENSION";
+        //qDebug() << "AJOUT D EXTENSION";
         Token* token = this->currentToken();
         if (token->type() == Enum::TokenTypes::EXTENSION) {
             searchOption->addExtension(token->value());
@@ -92,7 +92,7 @@ Action* SearchParser::parse()
 
 
     this->m_searchfsm->connectToState("TYPE", [this, searchOption]() {
-        qDebug() << "AJOUT TYPE";
+        //qDebug() << "AJOUT TYPE";
         Token* token = this->currentToken();
         if (token->type() == Enum::TokenTypes::TYPE) {
             searchOption->addType(token->value());
@@ -100,17 +100,17 @@ Action* SearchParser::parse()
     });
 
     this->m_searchfsm->connectToState("OPTION_CREATED", [this, searchOption, &setCreatedDate, &setModifiedDate]() {
-        qDebug() << "AJOUT DATE CREATION";
+        //qDebug() << "AJOUT DATE CREATION";
         setModifiedDate = false;
         setCreatedDate = true;
     });
     this->m_searchfsm->connectToState("OPTION_LAST_MODIFIED", [this, searchOption, &setCreatedDate, &setModifiedDate]() {
-        qDebug() << "AJOUT DATE CREATION";
+        //qDebug() << "AJOUT DATE CREATION";
         setCreatedDate = false;
         setModifiedDate = true;
     });
     this->m_searchfsm->connectToState("DATE", [this, searchOption, &isDateBetween, &setCreatedDate, &setModifiedDate]() {
-        qDebug() << "AJOUT DATE";
+        //qDebug() << "AJOUT DATE";
         Token* token = this->currentToken();
         if (token->type() == Enum::TokenTypes::DATE) {
             QDate date = stringToDate(token->value());
@@ -147,35 +147,20 @@ Action* SearchParser::parse()
 
     for (Token* token : tokens) {
 
-        qDebug() << "Traitement token " << token->value();
+        //qDebug() << "Traitement token " << token->value();
         QString transitionName = this->getTransitionName(token->typeString());
 
         if (sendNextOption(token)) {
-            qDebug() << "Transition to " << "is_next_option";
+            //qDebug() << "Transition to " << "is_next_option";
             this->m_searchfsm->submitEvent("is_next_option");
             QApplication::processEvents();
         }
-        qDebug() << "Transition to " << transitionName;
+        //qDebug() << "Transition to " << transitionName;
         this->m_searchfsm->submitEvent(transitionName);
         QApplication::processEvents();
 
         this->currentTokenI++;
 
-    }
-
-    qDebug() << "Value Max Size set : " << searchOption->getMaxSize().getSize() << searchOption->getMaxSize().getType();
-    qDebug() << "Value Min Size set : " << searchOption->getMinSize().getSize() << searchOption->getMinSize().getType();
-
-    for (SizeSpec sizeSpec : searchOption->getSizes()) {
-        qDebug() << "Value Size : " << sizeSpec.getSize() << sizeSpec.getType();
-    }
-
-    for (QString ext : searchOption->getExtensions()) {
-        qDebug() << "Value ext : " << ext;
-    }
-
-    for (QString type : searchOption->getTypes()) {
-        qDebug() << "Value type : " << type;
     }
 
     return new SearchAction(*searchOption);
@@ -214,9 +199,7 @@ SizeSpec SearchParser::parseSizeString(const QString& sizeString) {
         return SizeSpec();
     }
 
-    qDebug() << "Conversion de : " << sizeString.left(sizeString.length() - 1);
     double sizeValue = sizeString.left(sizeString.length() - 1).toDouble();
-    qDebug() << "Valeur converti : " << sizeValue;
 
     QString sizeType = sizeString.right(1).toUpper();
 

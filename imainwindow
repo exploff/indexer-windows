@@ -115,9 +115,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>30</y>
+      <y>460</y>
       <width>441</width>
-      <height>371</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -129,7 +129,7 @@
        <x>0</x>
        <y>0</y>
        <width>439</width>
-       <height>369</height>
+       <height>79</height>
       </rect>
      </property>
      <widget class="QListWidget" name="resultSearch">
@@ -201,7 +201,20 @@ CREATED: &lt;date_spec&gt;
 MAX_SIZE:&lt;size_spec&gt;
 MIN_SIZE: &lt;size_spec&gt;
 SIZE: &lt;size_spec|size_spec_ex&gt;
-EXT:&lt;list_of_extensions&gt;</string>
+EXT:&lt;list_of_extensions&gt;</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>441</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>0</number>
     </property>
    </widget>
   </widget>
